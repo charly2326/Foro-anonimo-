@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Anónimo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Foro Anónimo</h1>
+        <div class="perfil-header" onclick="abrirPerfil(event)" role="button" aria-label="Ver perfil">
+            <img src="perfil.jpg" class="profile-pic perfil-img" data-usuario="owen">
+            <span class="username" data-usuario="owen">@owen</span>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <form id="formMensaje" onsubmit="event.preventDefault(); publicarMensaje();">
+            <section>
+                <label for="nombre">Nombre de usuario:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="@nombredeusuario" required>
+
+                <label for="fotoPerfil">Foto de perfil:</label>
+                <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*">
+
+                <label for="texto">Mensaje:</label>
+                <input type="text" id="texto" name="texto" placeholder="Escribe un mensaje..." required>
+
+                <label for="archivo">Subir archivo:</label>
+                <input type="file" id="archivo" name="archivo" accept="image/*,video/*">
+
+                <button type="submit">Enviar</button>
+            </section>
+        </form>
+
+        <section>
+            <label for="buscar">Buscar mensajes:</label>
+            <input type="text" id="buscar" placeholder="Buscar mensajes...">
+        </section>
+
+        <section id="mensajes">
+            <!-- Aquí se cargan los mensajes -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Foro Anónimo</p>
+    </footer>
+
+    <!-- Ventana Modal para Perfil -->
+    <div id="perfilModal" class="modal" role="dialog" aria-labelledby="perfilModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarPerfil()">&times;</span>
+            <img id="perfilPortada" src="default-portada.jpg" class="perfil-portada">
+            <img id="perfilImagen" src="default-perfil.jpg" class="perfil-img">
+            <h2 id="perfilNombre"></h2>
+            <p id="perfilBio"></p>
+            <p id="perfilUbicacion"></p>
+            <a id="perfilEnlace" href="#" target="_blank"></a>
+            <p id="perfilFecha"></p>
+            <button onclick="mostrarEditarPerfil()">Editar Perfil</button>
+        </div>
+    </div>
+
+    <!-- Ventana Modal para Editar Perfil -->
+    <div id="editarPerfilModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarEditarPerfil()">&times;</span>
+            <h2>Editar Perfil</h2>
+            <form id="formEditarPerfil" onsubmit="event.preventDefault(); guardarPerfil();">
+                <label for="nuevoNombre">Nuevo nombre:</label>
+                <input type="text" id="nuevoNombre" name="nuevoNombre" required>
+
+                <label for="nuevaBio">Biografía:</label>
+                <textarea id="nuevaBio" name="nuevaBio" required></textarea>
+
+                <label for="nuevaUbicacion">Ubicación:</label>
+                <input type="text" id="nuevaUbicacion" name="nuevaUbicacion">
+
+                <label for="nuevoEnlace">Enlace personal:</label>
+                <input type="url" id="nuevoEnlace" name="nuevoEnlace" placeholder="https://tusitio.com">
+
+                <label for="nuevaImagen">Nueva imagen de perfil:</label>
+                <input type="file" id="nuevaImagen" name="nuevaImagen" accept="image/*">
+
+                <label for="nuevaPortada">Nueva imagen de portada:</label>
+                <input type="file" id="nuevaPortada" name="nuevaPortada" accept="image/*">
+
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

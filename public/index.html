@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz similar a Twitter</title>
+    <style>
+        /* ======== ESTILOS GENERALES ======== */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f8fa;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* ======== MENÚ IZQUIERDO ======== */
+        .left-menu {
+            width: 20%;
+            padding: 20px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .logo {
+            width: 40px;
+            margin-bottom: 20px;
+        }
+
+        .left-menu nav a {
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .left-menu nav a:hover {
+            background: #f5f8fa;
+            border-radius: 5px;
+        }
+
+        .tweet-btn {
+            padding: 10px;
+            background: #1da1f2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .tweet-btn:hover {
+            background: #1991db;
+        }
+
+        /* ======== FEED CENTRAL ======== */
+        .feed {
+            width: 60%;
+            padding: 20px;
+        }
+
+        .tweet-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tweet-box input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .tweet-box button {
+            padding: 10px;
+            background: #1da1f2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .tweet-box button:hover {
+            background: #1991db;
+        }
+
+        /* ======== TENDENCIAS ======== */
+        .right-menu {
+            width: 20%;
+            padding: 20px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* ======== MODAL PERFIL ======== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cover {
+            width: 100%;
+            height: 100px;
+            background: #1da1f2;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .cover:hover {
+            opacity: 0.8;
+        }
+
+        .profile-info {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: gray;
+            border: 4px solid white;
+            position: relative;
+            top: -40px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .avatar-large:hover {
+            opacity: 0.8;
+        }
+
+        .edit-profile {
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: none;
+            background: #1da1f2;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .edit-profile:hover {
+            background: #1991db;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        /* ======== RESPONSIVIDAD ======== */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .left-menu, .feed, .right-menu {
+                width: 100%;
+                min-height: auto;
+            }
+            .left-menu {
+                order: 2;
+            }
+            .feed {
+                order: 1;
+            }
+            .right-menu {
+                order: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <!-- Menú Izquierdo -->
+        <div class="left-menu">
+            <img src="logo.png" alt="Logo" class="logo">
+            <nav>
+                <a href="#">Inicio</a>
+                <a href="#">Explorar</a>
+                <a href="#">Notificaciones</a>
+                <a href="#">Mensajes</a>
+                <a href="#" onclick="abrirModal()">Perfil</a>
+            </nav>
+            <button class="tweet-btn">Twittear</button>
+        </div>
+
+        <!-- Feed Central -->
+        <div class="feed">
+            <div class="tweet-box">
+                <input type="text" placeholder="¿Qué está pasando?" id="tweetInput">
+                <button onclick="publicar()">Twittear</button>
+            </div>
+            <div id="tweetsContainer">
+                <!-- Aquí irían los tweets -->
+            </div>
+        </div>
+
+        <!-- Menú Derecho (Tendencias) -->
+        <div class="right-menu">
+            <h3>Tendencias</h3>
+            <ul id="trendingList">
+                <!-- Aquí irían las tendencias -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal de Perfil -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <div class="cover" onclick="cambiarPortada()">
+                <input type="file" id="uploadPortada" accept="image/*" style="display: none;">
+            </div>
+            <div class="profile-info">
+                <div class="avatar-large" onclick="cambiarAvatar()">
+                    <input type="file" id="uploadAvatar" accept="image/*" style="display: none;">
+                </div>
+                <h2 id="profileName">Nombre</h2>
+                <p id="profileUsername">@usuario</p>
+                <p id="profileBio">Biografía del usuario.</p>
+                <p id="profileLocation">📍 Ubicación</p>
+                <p id="profileWebsite">🔗 <a href="#" target="_blank">Sitio web</a></p>
+                <p id="profileJoined">📅 Se unió en Año</p>
+                <button class="edit-profile" onclick="abrirEditor()">Editar perfil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edición de Perfil -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <span class="close" id="close-edit-modal">&times;</span>
+            <h2>Editar Perfil</h2>
+            <label>Nombre:</label>
+            <input type="text" id="editName">
+            <label>Nombre de usuario:</label>
+            <input type="text" id="editUsername">
+            <label>Biografía:</label>
+            <textarea id="editBio"></textarea>
+            <label>Ubicación:</label>
+            <input type="text" id="editLocation">
+            <label>Sitio Web:</label>
+            <input type="url" id="editWebsite">
+            <button onclick="guardarCambios()">Guardar Cambios</button>
+        </div>
+    </div>
+
+    <!-- Script para manejar el modal -->
+    <script>
+        // Abrir modal
+        function abrirModal() {
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        // Cerrar modal
+        function cerrarModal() {
+            document.getElementById('profile-modal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function (event) {
+            if (event.target === document.getElementById('profile-modal')) {
+                cerrarModal();
+            }
+        };
+
+        // Abrir modal de edición
+        function abrirEditor() {
+            document.getElementById('edit-modal').style.display = 'flex';
+
+            // Cargar datos en el formulario
+            document.getElementById('editName').value = document.getElementById('profileName').innerText;
+            document.getElementById('editUsername').value = document.getElementById('profileUsername').innerText;
+            document.getElementById('editBio').value = document.getElementById('profileBio').innerText;
+            document.getElementById('editLocation').value = document.getElementById('profileLocation').innerText;
+            document.getElementById('editWebsite').value = document.getElementById('profileWebsite').innerText;
+        }
+
+        // Cerrar modal de edición
+        function cerrarEditor() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        // Guardar cambios
+        function guardarCambios() {
+            let name = document.getElementById('editName').value.trim();
+            let username = document.getElementById('editUsername').value.trim();
+            let bio = document.getElementById('editBio').value.trim();
+            let location = document.getElementById('editLocation').value.trim();
+            let website = document.getElementById('editWebsite').value.trim();
+
+            // Validar campos obligatorios
+            if (!name || !username) {
+                alert("¡Nombre y nombre de usuario son campos obligatorios!");
+                return;
+            }
+
+            document.getElementById('profileName').innerText = name;
+            document.getElementById('profileUsername').innerText = username;
+            document.getElementById('profileBio').innerText = bio;
+            document.getElementById('profileLocation').innerText = location;
+            document.getElementById('profileWebsite').innerHTML = `🔗 <a href="${website}" target="_blank">${website}</a>`;
+
+            cerrarEditor();
+        }
+
+        // Publicar un tweet
+        function publicar() {
+            let input = document.getElementById('tweetInput').value.trim();
+            if (input === "") {
+                alert("¡El tweet no puede estar vacío!");
+                return;
+            }
+
+            // Validar longitud del tweet
+            if (input.length > 280) {
+                alert("¡El tweet no puede tener más de 280 caracteres!");
+                return;
+            }
+
+            let tweetsContainer = document.getElementById("tweetsContainer");
+            let newTweet = document.createElement("div");
+            newTweet.classList.add("tweet");
+            newTweet.innerHTML = `
+                <div class="tweet-content">
+                    <h3>@usuario</h3>
+                    <p>${input}</p>
+                    <button class="delete-tweet" onclick="eliminarTweet(this)">🗑️ Eliminar</button>
+                </div>
+            `;
+            tweetsContainer.prepend(newTweet);
+            document.getElementById("tweetInput").value = "";
+
+            // Guardar tweet en localStorage
+            guardarTweets();
+        }
+
+        // Eliminar un tweet
+        function eliminarTweet(button) {
+            let tweet = button.closest(".tweet");
+            tweet.remove();
+            guardarTweets(); // Actualizar localStorage
+        }
+
+        // Guardar tweets en localStorage
+        function guardarTweets() {
+            let tweets = [];
+            document.querySelectorAll(".tweet p").forEach((tweet) => {
+                tweets.push(tweet.innerText);
+            });
+            localStorage.setItem("tweets", JSON.stringify(tweets));
+        }
+
+        // Cargar tweets desde localStorage
+        function cargarTweets() {
+            let tweets = JSON.parse(localStorage.getItem("tweets")) || [];
+            let tweetsContainer = document.getElementById("tweetsContainer");
+            tweetsContainer.innerHTML = ""; // Limpiar contenedor antes de cargar
+            tweets.forEach((tweet) => {
+                let newTweet = document.createElement("div");
+                newTweet.classList.add("tweet");
+                newTweet.innerHTML = `
+                    <div class="tweet-content">
+                        <h3>@usuario</h3>
+                        <p>${tweet}</p>
+                        <button class="delete-tweet" onclick="eliminarTweet(this)">🗑️ Eliminar</button>
+                    </div>
+                `;
+                tweetsContainer.prepend(newTweet);
+            });
+        }
+
+        // Cargar datos guardados al iniciar
+        document.addEventListener("DOMContentLoaded", function () {
+            cargarTweets(); // Cargar tweets guardados
+
+            let avatar = localStorage.getItem("avatar");
+            let portada = localStorage.getItem("portada");
+            let name = localStorage.getItem("name") || "Nombre";
+            let username = localStorage.getItem("username") || "@usuario";
+            let bio = localStorage.getItem("bio") || "Biografía del usuario.";
+            let location = localStorage.getItem("location") || "📍 Ubicación";
+            let website = localStorage.getItem("website") || "#";
+            let joined = localStorage.getItem("joined") || "📅 Se unió en Año";
+
+            if (avatar) document.querySelector(".avatar-large").style.backgroundImage = `url(${avatar})`;
+            if (portada) document.querySelector(".cover").style.backgroundImage = `url(${portada})`;
+
+            document.getElementById("profileName").innerText = name;
+            document.getElementById("profileUsername").innerText = username;
+            document.getElementById("profileBio").innerText = bio;
+            document.getElementById("profileLocation").innerText = location;
+            document.getElementById("profileWebsite").innerHTML = `🔗 <a href="${website}" target="_blank">${website}</a>`;
+            document.getElementById("profileJoined").innerText = joined;
+        });
+
+        // Cambiar avatar
+        function cambiarAvatar() {
+            let inputAvatar = document.getElementById("uploadAvatar");
+            inputAvatar.click();
+
+            inputAvatar.onchange = function () {
+                let file = inputAvatar.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let imageUrl = e.target.result;
+                        document.querySelector(".avatar-large").style.backgroundImage = `url(${imageUrl})`;
+                        localStorage.setItem("avatar", imageUrl);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+        }
+
+        // Cambiar portada
+        function cambiarPortada() {
+            let inputPortada = document.getElementById("uploadPortada");
+            inputPortada.click();
+
+            inputPortada.onchange = function () {
+                let file = inputPortada.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let imageUrl = e.target.result;
+                        document.querySelector(".cover").style.backgroundImage = `url(${imageUrl})`;
+                        localStorage.setItem("portada", imageUrl);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+        }
+
+        // Cerrar modal de edición
+        document.getElementById('close-edit-modal').addEventListener('click', cerrarEditor);
+        // Cerrar modal
+        document.getElementById('close-modal').addEventListener('click', cerrarModal);
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Anónimo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Foro Anónimo</h1>
+    </header>
+
+    <main>
+        <form id="formMensaje">
+            <section>
+                <label for="nombre">Nombre de usuario:</label>
+                <input type="text" id="nombre" placeholder="@nombredeusuario" required>
+
+                <label for="fotoPerfil">Foto de perfil:</label>
+                <input type="file" id="fotoPerfil" accept="image/*">
+
+                <label for="texto">Mensaje:</label>
+                <input type="text" id="texto" placeholder="Escribe un mensaje..." required>
+
+                <label for="archivo">Subir archivo:</label>
+                <input type="file" id="archivo" accept="image/*,video/*">
+
+                <button type="submit">Enviar</button>
+            </section>
+        </form>
+
+        <section>
+            <label for="buscar">Buscar mensajes:</label>
+            <input type="text" id="buscar" placeholder="Buscar mensajes...">
+        </section>
+
+        <section id="mensajes">
+            <!-- Aquí se cargan los mensajes -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Foro Anónimo</p>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
