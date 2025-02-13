@@ -10,11 +10,11 @@ def actualizar_archivo():
         contenido_actual = file.read()
 
     # Configurar el cliente de OpenAI
-    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    openai.api_key = OPENAI_API_KEY
 
     # Pedir a GPT que modifique el contenido
-    response = client.chat.completions.create(
-        model="gpt-4",
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",  # Cambia esto por gpt-3.5-turbo si no tienes acceso a gpt-4
         messages=[
             {"role": "system", "content": "Eres un asistente que edita archivos de texto."},
             {"role": "user", "content": f"Por favor, mejora o actualiza este archivo:\n\n{contenido_actual}"}
@@ -22,7 +22,7 @@ def actualizar_archivo():
     )
 
     # Obtener respuesta de GPT
-    nuevo_contenido = response.choices[0].message.content
+    nuevo_contenido = response["choices"][0]["message"]["content"]
 
     # Guardar los cambios en el archivo
     with open("client/public/info.txt", "w", encoding="utf-8") as file:
