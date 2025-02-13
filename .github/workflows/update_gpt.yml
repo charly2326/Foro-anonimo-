@@ -9,12 +9,15 @@ on:
     - cron: '0 0 * * *'  # Se ejecuta automáticamente todos los días a medianoche (UTC)
 
   workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub Actions
+
 jobs:
   update_code:
     runs-on: ubuntu-latest
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - name: Simular actualización con GPT
         run: |
@@ -26,8 +29,10 @@ jobs:
           git config --global user.email "actions@github.com"
 
       - name: Hacer commit y push
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           git add .
           git commit -m "Actualización automática con GPT"
-          git push
+          git push https://x-access-token:${GH_TOKEN}@github.com/Charly998/foro-anonimo.git main
 
