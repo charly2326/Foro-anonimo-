@@ -30,9 +30,9 @@ jobs:
 
       - name: Hacer commit y push
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git add .
-          git commit -m "Actualización automática con GPT"
-          git push https://x-access-token:${GH_TOKEN}@github.com/Charly998/foro-anonimo.git main
+          git commit -m "Actualización automática con GPT" || echo "No hay cambios para commit"
+          git push https://x-access-token:${GH_PAT}@github.com/Charly998/foro-anonimo.git main || echo "No se pudo hacer push"
 
