@@ -3,15 +3,17 @@ import os
 
 # Obtener la API Key desde las variables de entorno
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
 
 def actualizar_archivo():
     # Leer contenido actual del archivo
     with open("client/public/info.txt", "r", encoding="utf-8") as file:
         contenido_actual = file.read()
 
+    # Configurar el cliente de OpenAI
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
     # Pedir a GPT que modifique el contenido
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "Eres un asistente que edita archivos de texto."},
@@ -20,13 +22,13 @@ def actualizar_archivo():
     )
 
     # Obtener respuesta de GPT
-    nuevo_contenido = response["choices"][0]["message"]["content"]
+    nuevo_contenido = response.choices[0].message.content
 
     # Guardar los cambios en el archivo
     with open("client/public/info.txt", "w", encoding="utf-8") as file:
         file.write(nuevo_contenido)
 
-    print("Archivo actualizado con éxito.")
+    print("✅ Archivo actualizado con éxito.")
 
 # Ejecutar función
 if __name__ == "__main__":
