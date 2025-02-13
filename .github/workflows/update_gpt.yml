@@ -1,0 +1,33 @@
+name: GPT Code Update
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cuando hay cambios en la rama main
+
+  schedule:
+    - cron: '0 0 * * *'  # Se ejecuta automáticamente todos los días a medianoche (UTC)
+
+  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub Actions
+jobs:
+  update_code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Simular actualización con GPT
+        run: |
+          echo "Este es un cambio generado por GPT" > client/public/info.txt
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: Hacer commit y push
+        run: |
+          git add .
+          git commit -m "Actualización automática con GPT"
+          git push
+
