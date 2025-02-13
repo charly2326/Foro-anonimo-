@@ -1,0 +1,201 @@
+name: Apply Changes
+
+on:
+  push:
+    branches:
+      - feature/publicaciones
+
+jobs:
+  apply-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Apply changes
+        run: |
+          echo "Applying changes to files..."
+          # Update index.html
+          cat > client/public/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Foro Anónimo</title>
+              <link rel="stylesheet" href="styles.css">
+          </head>
+          <body>
+              <div class="feed">
+                  <div class="tweet-box">
+                      <textarea id="publicacion-texto" rows="3" placeholder="¿Qué estás pensando?"></textarea>
+                      <input type="file" id="publicacion-imagen" accept="image/*">
+                      <input type="file" id="publicacion-video" accept="video/*">
+                      <button onclick="publicar()">Publicar</button>
+                  </div>
+              </div>
+              <script src="script.js"></script>
+              <script>
+                  function publicar() {
+                      const texto = document.getElementById('publicacion-texto').value;
+                      const imagen = document.getElementById('publicacion-imagen').files[0] ? URL.createObjectURL(document.getElementById('publicacion-imagen').files[0]) : '';
+                      const video = document.getElementById('publicacion-video').files[0] ? URL.createObjectURL(document.getElementById('publicacion-video').files[0]) : '';
+                      if (texto || imagen || video) {
+                          añadirPublicacion(texto, imagen, video);
+                          document.getElementById('publicacion-texto').value = '';
+                          document.getElementById('publicacion-imagen').value = '';
+                          document.getElementById('publicacion-video').value = '';
+                      }
+                  }
+              </script>
+          </body>
+          </html>
+          EOF
+
+          # Update script.js
+          cat > client/public/script.js << 'EOF'
+          // Simulación de base de datos
+          let publicaciones = JSON.parse(localStorage.getItem('publicaciones')) || [];
+
+          function renderPublicaciones() {
+              const feed = document.querySelector('.feed');
+              feed.innerHTML = '';
+              publicaciones.forEach((pub, index) => {
+                  const pubElem = document.createElement('div');
+                  pubElem.className = 'tweet';
+                  pubElem.innerHTML = \`
+                      <p>\${pub.texto}</p>
+                      \${pub.imagen ? \`<img src="\${pub.imagen}" alt="Imagen">\` : ''}
+                      \${pub.video ? \`<video src="\${pub.video}" controls></video>\` : ''}
+                      <div class="buttons">
+                          <span class="like-btn \${pub.likes.includes(USER_ID) ? 'liked' : ''}" onclick="toggleLike(\${index})">Me gusta (\${pub.likes.length})</span>
+                          <span class="comment-btn" onclick="mostrarComentarios(\${index})">Comentarios (\${pub.comentarios.length})</span>
+                      </div>
+                      <div class="comentarios" id="comentarios-\${index}">
+                          \${pub.comentarios.map(com => \`<p>\${com}</p>\`).join('')}
+                          <input type="text" id="comentario-input-\${index}" placeholder="Añadir comentario">
+                          <button onclick="añadirComentario(\${index})">Comentar</button>
+                      </div>
+                  \`;
+                  feed.appendChild(pubElem);
+              });
+          }
+
+          function toggleLike(index) {
+              const pub = publicaciones[index];
+              const userIndex = pub.likes.indexOf(USER_ID);
+              if (userIndex === -1) {
+                  pub.likes.push(USER_ID);
+              } else {
+                  pub.likes.splice(userIndex, 1);
+              }
+              actualizarPublicaciones();
+          }
+
+          function añadirComentario(index) {
+              const input = document.getElementById(\`comentario-input-\${index}\`);
+              const comentario = input.value;
+              if (comentario) {
+                  publicaciones[index].comentarios.push(comentario);
+                  input.value = '';
+                  actualizarPublicaciones();
+              }
+          }
+
+          function actualizarPublicaciones() {
+              localStorage.setItem('publicaciones', JSON.stringify(publicaciones));
+              renderPublicaciones();
+          }
+
+          // Ejemplo de añadir una nueva publicación
+          function añadirPublicacion(texto, imagen = '', video = '') {
+              publicaciones.push({ texto, imagen, video, likes: [], comentarios: [] });
+              actualizarPublicaciones();
+          }
+
+          // Inicializar
+          const USER_ID = 'usuario123'; // Ejemplo de ID de usuario
+          renderPublicaciones();
+          EOF
+
+          # Update styles.css
+          cat > client/public/styles.css << 'EOF'
+          body {
+              font-family: Arial, sans-serif;
+              background: #f5f8fa;
+              display: flex;
+              justify-content: center;
+          }
+
+          .feed {
+              width: 600px;
+              padding: 20px;
+          }
+
+          .tweet-box {
+              background: white;
+              padding: 15px;
+              border-radius: 10px;
+              margin-bottom: 15px;
+          }
+
+          .tweet {
+              background: white;
+              padding: 10px;
+              border-radius: 10px;
+              margin-bottom: 10px;
+              display: flex;
+              flex-direction: column;
+          }
+
+          .tweet img, .tweet video {
+              max-width: 100%;
+              border-radius: 10px;
+              margin-top: 5px;
+          }
+
+          .buttons {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 5px;
+          }
+
+          .like-btn, .comment-btn {
+              cursor: pointer;
+              color: #1da1f2;
+          }
+
+          .liked {
+              color: red;
+          }
+
+          .comentarios {
+              margin-top: 10px;
+              padding: 10px;
+              background: #f0f0f0;
+              border-radius: 10px;
+          }
+
+          .comentarios input {
+              width: 80%;
+              padding: 5px;
+          }
+
+          .comentarios button {
+              padding: 5px 10px;
+          }
+          EOF
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add client/public/index.html client/public/script.js client/public/styles.css
+          git commit -m "Aplicar cambios a publicaciones, 'Me gusta' y comentarios"
+          git push origin feature/publicaciones
