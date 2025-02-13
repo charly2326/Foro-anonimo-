@@ -1,8 +1,9 @@
 import openai
 import os
 
-# Configurar API Key (debes agregarla en los Secrets de GitHub)
+# Obtener la API Key desde las variables de entorno
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
 
 def actualizar_archivo():
     # Leer contenido actual del archivo
