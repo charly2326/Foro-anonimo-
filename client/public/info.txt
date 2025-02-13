@@ -1,5 +1,1 @@
 Este es un cambio generado por GPT
- HEAD
-
-
- d053dab (Agregar workflow para aplicar cambios automáticamente)
