@@ -1,0 +1,37 @@
+name: Actualizar Página Web con IA
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Se ejecuta cada 30 minutos
+  push:
+    branches:
+      - main  # Se ejecuta cuando subes cambios a main
+
+jobs:
+  update_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Ejecutar script de actualización
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python update_github.py
+
+      - name: Publicar en GitHub Pages
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add index.html
+          git commit -m "📢 Actualización automática de la página"
+          git push origin main
+

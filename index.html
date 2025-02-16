@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Anónimo</title>
+</head>
+<body>
+    <h1>🚀 Última actualización con IA</h1>
+    <pre id="contenido"></pre>
+
+    <script>
+        fetch("https://raw.githubusercontent.com/charly2326/Foro-anonimo-/main/archivo.txt")
+            .then(response => response.text())
+            .then(data => document.getElementById("contenido").innerText = data)
+            .catch(error => console.error("Error cargando el archivo:", error));
+    </script>
+</body>
+</html>
+
