@@ -95,7 +95,7 @@ function cargarTweets() {
 document.addEventListener("DOMContentLoaded", function () {
     cargarTweets(); // Cargar tweets guardados
 
-    let avatar = localStorage.getItem("avatar");
+    let avatar = localStorage.getItem("avatar") || localStorage.getItem("avatarPerfil");
     let portada = localStorage.getItem("portada");
     let name = localStorage.getItem("name") || "Nombre";
     let username = localStorage.getItem("username") || "@usuario";
@@ -104,8 +104,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let website = localStorage.getItem("website") || "#";
     let joined = localStorage.getItem("joined") || "📅 Se unió en Año";
 
-    if (avatar) document.querySelector(".avatar-large").style.backgroundImage = `url(${avatar})`;
-    if (portada) document.querySelector(".cover").style.backgroundImage = `url(${portada})`;
+    if (avatar) {
+        document.querySelector(".avatar-large").style.backgroundImage = `url(${avatar})`;
+        document.getElementById("avatarPerfil").style.backgroundImage = `url(${avatar})`;
+    }
+    if (portada) {
+        document.querySelector(".cover").style.backgroundImage = `url(${portada})`;
+    }
 
     document.getElementById("profileName").innerText = name;
     document.getElementById("profileUsername").innerText = username;
@@ -113,56 +118,42 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("profileLocation").innerText = location;
     document.getElementById("profileWebsite").innerHTML = `🔗 <a href="${website}" target="_blank">${website}</a>`;
     document.getElementById("profileJoined").innerText = joined;
+
+    // Cargar estado de "Seguir"
+    let followedProfiles = JSON.parse(localStorage.getItem("followedProfiles")) || [];
+    let isFollowing = followedProfiles.includes(username);
+    const followBtn = document.querySelector(".follow-btn");
+
+    if (followBtn) {
+        followBtn.textContent = isFollowing ? "Siguiendo" : "Seguir";
+        followBtn.onclick = function () {
+            toggleFollow(username);
+        };
+    }
 });
 
+
 // Cambiar avatar
-function cambiarAvatar() {
-    let inputAvatar = document.getElementById("uploadAvatar");
-    inputAvatar.click();
+function cambiarFotoPerfil() {
+    console.log("Cambiando foto de perfil...");
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
 
-    inputAvatar.onchange = function () {
-        let file = inputAvatar.files[0];
+    input.onchange = function (event) {
+        let file = event.target.files[0];
         if (file) {
             let reader = new FileReader();
             reader.onload = function (e) {
-                let imageUrl = e.target.result;
-                document.querySelector(".avatar-large").style.backgroundImage = `url(${imageUrl})`;
-                localStorage.setItem("avatar", imageUrl);
+                let avatarUrl = e.target.result;
+                document.getElementById("avatarPerfil").style.backgroundImage = `url(${avatarUrl})`;
+                localStorage.setItem("avatarPerfil", avatarUrl);
+                localStorage.setItem("avatar", avatarUrl); // Guardar en ambas claves
             };
             reader.readAsDataURL(file);
         }
     };
-}
-
-// Cambiar portada
-function cambiarPortada() {
-    let inputPortada = document.getElementById("uploadPortada");
-    inputPortada.click();
-
-    inputPortada.onchange = function () {
-        let file = inputPortada.files[0];
-        if (file) {
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                let imageUrl = e.target.result;
-                document.querySelector(".cover").style.backgroundImage = `url(${imageUrl})`;
-                localStorage.setItem("portada", imageUrl);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-}
-
-// Abrir modal de edición
-function abrirEditor() {
-    document.getElementById("editModal").style.display = "flex";
-
-    // Cargar datos en el formulario
-    document.getElementById("editName").value = document.getElementById("profileName").innerText;
-    document.getElementById("editUsername").value = document.getElementById("profileUsername").innerText;
-    document.getElementById("editBio").value = document.getElementById("profileBio").innerText;
-    document.getElementById("editLocation").value = document.getElementById("profileLocation").innerText;
-    document.getElementById("editWebsite").value = document.getElementById("profileWebsite").innerText;
+    input.click();
 }
 
 // Guardar cambios en localStorage
@@ -194,7 +185,19 @@ function guardarCambios() {
     cerrarEditor();
 }
 
-// Cerrar editor
-function cerrarEditor() {
-    document.getElementById("editModal").style.display = "none";
+// Función de seguir/dejar de seguir
+function toggleFollow(username) {
+    let followedProfiles = JSON.parse(localStorage.getItem("followedProfiles")) || [];
+    const followBtn = document.querySelector(".follow-btn");
+
+    if (followedProfiles.includes(username)) {
+        followedProfiles = followedProfiles.filter(user => user !== username);
+        followBtn.textContent = "Seguir";
+    } else {
+        followedProfiles.push(username);
+        followBtn.textContent = "Siguiendo";
+    }
+
+    localStorage.setItem("followedProfiles", JSON.stringify(followedProfiles));
 }
+

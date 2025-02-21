@@ -1,0 +1,1252 @@
+
+<!DOCTYPE html>
+<html lang="es">                                                                                                                       <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz Mejorada</title>
+<style>
+/* ======== ESTILOS GENERALES ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f8fa;
+}
+
+/* Contenedor Principal */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ======== MENÚ IZQUIERDO ======== */
+.left-menu {
+    width: 20%;
+    padding: 20px;
+    background: white;
+    min-height: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.left-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: #333;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.left-menu nav a:hover {
+    background-color: #e6f4f9;
+}
+
+.left-menu button {
+    padding: 10px 20px;
+    background: #1da1f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.left-menu button:hover {
+    background-color: #0d8cd1;
+}
+
+/* ======== COLUMNA CENTRAL (FEED) ======== */
+.feed {
+    width: 60%;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.new-post {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.new-post textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    resize: none;
+    font-size: 16px;
+}
+
+.new-post button {
+    padding: 10px 20px;
+    background: #1da1f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.new-post button:hover {
+    background-color: #0d8cd1;
+}
+
+.post {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header .avatar {
+    width: 50px;
+    height: 50px;
+    background: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.post-header h3 {
+    margin: 0;
+    color: #1da1f2;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.post-header h3:hover {
+    color: #0d8cd1;
+}
+
+.post img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.post-actions {
+    margin-top: 10px;
+}
+
+.post-actions button {
+    background: none;
+    border: none;                                                                                                                          cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.post-actions button:hover {
+    color: #1da1f2;
+}
+
+/* ======== MENÚ DERECHO (TENDENCIAS) ======== */
+.right-menu {
+    width: 20%;
+    padding: 20px;
+    background: white;
+    min-height: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.right-menu h3 {
+    margin-top: 0;
+}
+
+.right-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.right-menu ul li {
+    padding: 8px;
+    font-weight: bold;
+    border-radius: 5px;                                                                                         transition: background-color 0.3s ease;
+}
+
+.right-menu ul li:hover {                                                                                       background-color: #e6f4f9;
+}
+
+/* ======== VISTA PREVIA DE ARCHIVOS ======== */
+.file-input-btn {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;                                                                                                                    cursor: pointer;
+    text-align: center;                                                                                                                    width: 150px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.file-input-btn:hover {
+    background-color: #0d8cd1;
+}
+
+.file-input {                                                                                                   display: none;
+}
+
+#filePreview {
+    margin-top: 10px;
+}
+
+#filePreview img, #filePreview video {
+    max-width: 100px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+/* ======== ESTILOS PARA COMENTARIOS ======== */
+.comments {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f5f8fa;
+    border-radius: 10px;
+}
+
+.comment {                                                                                                                                 display: flex;
+    margin-bottom: 10px;
+}
+.comment .avatar {
+    width: 30px;
+    height: 30px;                                                                                                                          background: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-content h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #1da1f2;
+}
+
+.comment-content p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.add-comment {
+    margin-top: 10px;
+}
+
+.add-comment textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    resize: none;
+    font-size: 14px;
+}
+
+.add-comment button {
+    padding: 5px 10px;
+    background: #1da1f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.add-comment button:hover {
+    background-color: #0d8cd1;
+}
+
+/* ======== MODAL DE PERFIL ======== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {                                                                                                                                       opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.modal-content .close-btn:hover {                                                                                                          color: #000;
+}
+
+/* Imagen de perfil */
+.profile-avatar {
+    width: 120px;
+    height: 120px;                                                                                                                         border-radius: 50%;
+    background-size: cover;
+    background-position: center;                                                                                                           margin: 10px auto;
+    border: 4px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;                                                                                                                       transition: transform 0.3s ease-in-out;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+/* Nombre de perfil */
+.profile-name {
+    font-size: 22px;                                                                                            font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Nombre de usuario */
+.profile-username {
+    color: gray;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Biografía */                                                                                                                        .profile-bio {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #444;                                                                                                                       }
+
+/* Botón de seguir */
+.follow-btn {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.follow-btn:hover {
+    background-color: #0d8cd1;
+}
+
+/* Botón de editar perfil */
+.edit-profile {
+    background: #ddd;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+                                                                                                            .edit-profile:hover {
+    background: #ccc;                                                                                       }
+
+/* Sección de estadísticas */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.stats div {
+    text-align: center;
+}
+
+.stats div span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Línea de tiempo */
+.timeline {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.timeline h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.timeline-item {
+    background: #f5f8fa;                                                                                        padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.timeline-item p {                                                                                              margin: 0;
+}
+
+
+/* ======== MODAL DE EDICIÓN ======== */
+.modal-content input[type="text"],
+.modal-content textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background: #1da1f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0d8cd1;
+}
+.modal {
+    display: none;
+}
+
+/* ======== MEDIA QUERY PARA VISTA MÓVIL ======== */
+@media (max-width: 768px) {
+    /* Cambiar la disposición a columna en pantallas pequeñas */
+    .container {
+        flex-direction: column;
+    }
+
+    .left-menu, .right-menu {
+        width: 100%;
+        padding: 10px;
+        display: none; /* Ocultar menús laterales en móviles */
+    }
+
+    .feed {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Menú inferior fijo en móviles */
+    .bottom-menu {
+        display: flex;
+        justify-content: space-around;
+        background: white;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 0;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    .bottom-menu a {
+        text-decoration: none;
+        color: #1da1f2;
+        font-size: 20px;
+    }
+
+    /* Ajustes en botones */
+    .new-post button, .add-comment button {
+        width: 100%;
+    }
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;                                                                                                     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-contenido {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.cerrar-modal {
+    float: right;                                                                                               font-size: 20px;
+    cursor: pointer;
+}
+
+.pedido {
+    border: 1px solid #ddd;
+    padding: 10px;                                                                                              margin-bottom: 10px;
+    border-radius: 5px;
+}                                                                                                           
+.pedido h3 {
+    margin: 0;
+    color: #1da1f2;                                                                                         }
+
+.pedido button {
+    padding: 5px 10px;
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pedido button:hover {
+    background-color: #0d8cd1;
+}
+
+
+    </style>
+</head>                                                                                                                                <body>
+    <!-- Contenedor Principal -->
+    <div class="container">                                                                                         <!-- Menú Izquierdo -->
+<div class="left-menu">
+    <nav>
+        <a href="#">Inicio</a>                                                                                      <a href="#" onclick="abrirModalPedidos()">Pedidos disponibles</a>
+        <a href="#">Notificaciones</a>
+        <a href="#" onclick="openFriendsModal()">Mensajes</a> <!-- Activar modal de amigos -->
+        <a href="#" onclick="openProfileModal()">Perfil</a>
+    </nav>
+    <button onclick="abrirEditor()">Publicar</button>
+</div>
+
+        <!-- Feed Central -->
+        <div class="feed">
+            <!-- Área para escribir el post -->
+            <div class="new-post">
+                <textarea id="postText" placeholder="¿Que necesitas?"></textarea>
+                <label for="fileInput" class="file-input-btn">Subir archivo</label>
+                <input type="file" id="fileInput" class="file-input" multiple onchange="previewFiles()">
+                <div id="filePreview"></div>
+                <button onclick="publicar()">Solicitar</button>
+            </div>
+
+            <!-- Ejemplo de post -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar" style="background-image: url('avatar.jpg');"></div>
+                    <h3 onclick="openUserProfile('@usuario')">@usuario</h3>
+                </div>
+                <p>Este es un ejemplo de publicación.</p>
+                <img src="https://via.placeholder.com/600x400" alt="Post Image">
+                <div class="post-actions">
+                    <button onclick="toggleComments(this)">💬 Comentar</button>
+                    <button>❤️</button>
+                    <button>📤</button>
+                </div>
+                <div class="comments" style="display: none;">
+                    <div class="add-comment">
+                        <textarea class="comment-input" placeholder="Escribe un comentario..."></textarea>
+                        <button onclick="agregarComentario(this)">Comentar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Derecho (Tendencias) -->
+        <div class="right-menu">
+            <h3>pedidos recientes</h3>
+            <ul id="trendingList">                                                                                        <li>#Tendencia1</li>
+                <li>#Tendencia2</li>
+                <li>#Tendencia3</li>
+            </ul>
+        </div>
+    </div>
+<!-- MODAL DE PERFIL -->
+<div class="modal" id="perfilModal" onclick="cerrarModalPerfil(event)">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModalPerfil(event)">✖</span>
+
+        <!-- Imagen de perfil (Avatar) -->
+        <div class="profile-avatar" id="avatarPerfil" style="background-image: url('avatar.jpg');"></div>
+
+
+        <div class="profile-name" id="nombrePerfil">Nombre del Usuario</div>
+        <div class="profile-username" id="usuarioPerfil">@usuario</div>
+        <p class="profile-bio" id="bioPerfil">Esta es la biografía del usuario.</p>
+
+        <button class="follow-btn" onclick="toggleFollow()">Seguir</button>
+        <button class="edit-profile" onclick="abrirEditor()">Editar perfil</button>
+
+        <div class="stats">                                                                                                                        <div><span id="tweetsCount">0</span> Tweets</div>
+            <div><span id="followingCount">0</span> Siguiendo</div>
+            <div><span id="followersCount">0</span> Seguidores</div>
+        </div>
+
+        <div class="timeline">
+            <h4>Timeline</h4>
+            <div class="timeline-item"><p>Primer Tweet</p></div>
+            <div class="timeline-item"><p>Segundo Tweet</p></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE EDICIÓN -->
+<div id="edit-modal" class="modal">
+    <div class="modal-content">                                                                                   <span class="close-btn" onclick="cerrarModalPerfil(event)">&times;</span>
+        <h2>Editar perfil</h2>
+        <label for="editName">Nombre:</label>
+        <input type="text" id="editName"><br><br>
+        <label for="editUsername">Nombre de usuario:</label>
+        <input type="text" id="editUsername"><br><br>
+        <label for="editBio">Bio:</label>
+        <textarea id="editBio"></textarea><br><br>
+        <label for="editLocation">Ubicación:</label>
+        <input type="text" id="editLocation"><br><br>
+        <label for="editWebsite">Sitio web:</label>
+        <input type="text" id="editWebsite"><br><br>
+        <!-- New input for avatar URL -->
+        <label for="editAvatar">URL del Avatar:</label>
+        <input type="text" id="editAvatar"><br><br>
+        <button onclick="guardarCambios()">Guardar cambios</button>
+        <button onclick="cerrarEditor()">Regresar</button>
+
+    </div>
+</div>
+
+<!-- Modal para mostrar amigos -->
+<div id="friendsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModalFriends()">&times;</span>
+        <h2>Mis Amigos</h2>
+        <div id="amigosContainer">
+            <!-- Los amigos seguidos se agregarán aquí dinámicamente -->
+        </div>
+    </div>
+</div>
+<!-- MODAL DE PEDIDOS DISPONIBLES -->
+    <div id="modalPedidos" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModalPedidos()">&times;</span>
+            <h2>📌 Pedidos Disponibles</h2>
+            <div id="listaPedidos">
+                <!-- Aquí se cargarán los pedidos dinámicamente -->
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Variables para seguimiento del estado de seguimiento                                                   let tweetsCount = 123;        // Número inicial de tweets
+    let followersCount = 789;     // Número inicial de seguidores
+    let followingCount = 456;     // Número inicial de seguidos                                               let isFollowing = false;      // Estado de si el usuario sigue o no
+    const currentUsername = '@mi_usuario'; // Cambia este valor al nombre de usuario actual
+    // Función para mostrar la vista previa de los archivos seleccionados
+    function previewFiles() {                                                                                     const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('filePreview');
+
+        previewContainer.innerHTML = ''; // Limpiar vista previa anterior
+
+        const files = fileInput.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileType = file.type.split('/')[0]; // Tipo de archivo (imagen, video, etc.)
+                                                                                                                        const fileElement = document.createElement('div');
+            fileElement.classList.add('file-preview-item');
+
+            if (fileType === 'image') {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                fileElement.appendChild(img);
+            } else if (fileType === 'video') {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                fileElement.appendChild(video);
+            }
+
+            previewContainer.appendChild(fileElement);                                                            }                                                                                                     }
+
+    // Publicar un Tweet con validación
+function publicar() {
+    let input = document.getElementById("postText").value.trim();
+    if (input === "") {
+        alert("¡El post no puede estar vacío!");
+        return;
+    }
+
+    let currentUsername = localStorage.getItem("username");
+    if (!currentUsername) {
+        currentUsername = prompt("Introduce tu nombre de usuario único:");
+        while (!currentUsername || currentUsername.trim() === "") {
+            currentUsername = prompt("El nombre no puede estar vacío. Introduce tu nombre de usuario:");
+        }
+        localStorage.setItem("username", currentUsername);
+    }
+
+    let feed = document.querySelector(".feed");
+    let newPost = document.createElement("div");
+    newPost.classList.add("post");
+
+    let postContent = `
+        <div class="post-header">
+            <div class="avatar" style="background-image: url('avatar.jpg');"></div>
+            <h3 onclick="openUserProfile('${currentUsername}')">${currentUsername}</h3>
+        </div>
+        <p>${input}</p>
+    `;
+
+    // Procesar imágenes y videos
+    const archivosHTML = procesarArchivos();
+    postContent += archivosHTML;
+
+    postContent += `                                                                                                <div class="post-actions">
+            <button onclick="toggleComments(this)">💬 Comentar</button>
+            <button onclick="toggleLike(this)">❤️</button>
+            <button>📤</button>
+        </div>
+        <div class="comments" style="display: none;">
+            <div class="add-comment">
+                <textarea class="comment-input" placeholder="Escribe un comentario..."></textarea>
+                <button onclick="agregarComentario(this)">Comentar</button>
+            </div>
+        </div>
+    `;
+
+    newPost.innerHTML = postContent;
+    feed.prepend(newPost); // Agregarlo al inicio para que los nuevos posts sean los primeros
+
+    // Limpiar formulario
+    document.getElementById("postText").value = "";
+    document.getElementById("filePreview").innerHTML = "";
+    document.getElementById("fileInput").value = "";
+}
+
+// Modificación de `procesarArchivos()` para soportar múltiples archivos                                    function procesarArchivos() {
+    const fileInput = document.getElementById('fileInput');
+    let archivosHTML = "";
+
+    for (let file of fileInput.files) {
+        const fileType = file.type.split('/')[0];
+        if (fileType === 'image') {
+            archivosHTML += `<img src="${URL.createObjectURL(file)}" style="width: 100%; border-radius: 10px; margin-top: 10px;">`;
+        } else if (fileType === 'video') {
+            archivosHTML += `<video src="${URL.createObjectURL(file)}" controls style="width: 100%; border-radius: 10px; margin-top: 10px;"></video>`;
+        }
+    }
+
+    return archivosHTML;                                                                                                               }                                                                                
+
+    // Función para mostrar/ocultar comentarios
+    function toggleComments(button) {
+        const post = button.closest('.post');
+        const commentsSection = post.querySelector('.comments');
+        commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Función para agregar un comentario
+    function agregarComentario(button) {
+        const commentInput = button.previousElementSibling;
+        const commentText = commentInput.value.trim();
+        if (commentText === "") {
+            alert("¡El comentario no puede estar vacío!");
+            return;
+        }
+
+        const commentsSection = button.closest('.comments');
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment');
+
+        newComment.innerHTML = `
+            <div class="avatar" style="background-image: url('avatar.jpg');"></div>
+            <div class="comment-content">
+                <h4>${currentUsername}</h4>
+                <p>${commentText}</p>
+            </div>
+        `;
+
+        commentsSection.insertBefore(newComment, commentsSection.querySelector('.add-comment'));
+
+        // Limpiar el área de texto después de agregar el comentario                                              commentInput.value = "";                                                                                  }
+
+function eliminarComentario(commentElement) {                                                                   commentElement.remove();
+}
+
+    // Abrir modal de perfil                                                                                    function openProfileModal() {
+        document.getElementById("perfilModal").style.display = "flex";
+        // Verificar si el perfil es del usuario actual
+        const profileUsername = document.getElementById("usuarioPerfil").innerText;
+        const perfilBtn = document.getElementById("perfilBtn");
+        if (profileUsername === currentUsername) {
+            perfilBtn.textContent = "Editar perfil";
+        } else {
+            perfilBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
+        }
+    }
+
+    // Cerrar modal de perfil
+    function cerrarModalPerfil(event) {
+        if (event.target.classList.contains('modal') || event.target.classList.contains('close-btn')) {
+            document.getElementById("perfilModal").style.display = "none";
+            document.getElementById("edit-modal").style.display = "none";
+        }
+    }
+
+    // Abrir perfil de usuario
+    function openUserProfile(username) {
+        document.getElementById("perfilModal").style.display = "flex";
+        document.getElementById("usuarioPerfil").innerText = username;
+        const perfilBtn = document.getElementById("perfilBtn");
+        if (username === currentUsername) {                                                                             perfilBtn.textContent = "Editar perfil";                                                                } else {
+            perfilBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
+        }
+    }
+
+    // Función para actualizar los contadores en el modal del perfil
+    function actualizarPerfil() {
+    // Cargar los datos del perfil desde localStorage
+    const name = localStorage.getItem('name');
+    const username = localStorage.getItem('username');
+    const bio = localStorage.getItem('bio');
+    const location = localStorage.getItem('location');
+    const website = localStorage.getItem('website');
+    const avatar = localStorage.getItem('avatar');
+
+    // Actualizar los elementos del perfil en la interfaz
+    if (name) document.getElementById('nombrePerfil').innerText = name;
+    if (username) document.getElementById('usuarioPerfil').innerText = username;
+    if (bio) document.getElementById('bioPerfil').innerText = bio;
+    if (location) document.getElementById('locationPerfil').innerText = location;
+    if (website) document.getElementById('websitePerfil').innerText = website;
+    if (avatar) document.getElementById('avatarPerfil').style.backgroundImage = `url(${avatar})`;
+}
+
+// Cargar la imagen guardada al abrir la página
+window.onload = function() {
+    let savedAvatar = localStorage.getItem("avatarPerfil");
+    if (savedAvatar) {
+        document.getElementById("avatarPerfil").style.backgroundImage = `url(${savedAvatar})`;                                             }
+
+    // Asegurar que se carguen otras funciones necesarias al cargar la página
+    actualizarPerfil();
+    mostrarAmigos();
+    actualizarContadores();
+};
+
+
+
+// Llamar a la función para cargar los datos del perfil desde localStorage
+window.onload = function() {
+    actualizarPerfil();
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    let profileUsername = localStorage.getItem("username");
+
+    if (!profileUsername) {
+        abrirEditorDePerfil();  // Solo mostrar si no hay un usuario guardado
+    } else {
+        document.getElementById("usuarioPerfil").innerText = profileUsername;
+    }
+
+    // ✅ Cargar la imagen de perfil desde localStorage correctamente
+    let savedAvatar = localStorage.getItem("avatarPerfil");
+    if (savedAvatar) {
+        let avatarElement = document.getElementById("avatarPerfil");
+        if (avatarElement) {
+            avatarElement.style.backgroundImage = `url(${savedAvatar})`;
+        }
+    }
+
+    // ✅ Evento para cambiar la foto de perfil
+    let avatarPerfil = document.getElementById("avatarPerfil");
+    if (avatarPerfil) {
+        avatarPerfil.addEventListener("click", cambiarFotoPerfil);
+    }                                                                                                       
+    // ✅ Configuración del botón "Seguir"
+    let followedProfiles = JSON.parse(localStorage.getItem('followedProfiles')) || [];                          let isFollowing = followedProfiles.includes(profileUsername);
+    const followBtn = document.querySelector('.follow-btn');
+
+    if (followBtn) {
+        followBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';                                       
+        followBtn.addEventListener('click', function() {
+            if (followedProfiles.includes(profileUsername)) {
+                followedProfiles = followedProfiles.filter(username => username !== profileUsername);
+                followBtn.textContent = 'Seguir';
+            } else {
+                followedProfiles.push(profileUsername);
+                followBtn.textContent = 'Siguiendo';
+            }
+
+            localStorage.setItem('followedProfiles', JSON.stringify(followedProfiles));
+        });
+    }
+});
+
+// ✅ Función para cambiar la foto de perfil y guardarla en localStorage
+function cambiarFotoPerfil() {
+    console.log("Cambiando foto de perfil...");
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.onchange = function(event) {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let avatarUrl = e.target.result;
+                let avatarElement = document.getElementById("avatarPerfil");
+                if (avatarElement) {
+                    avatarElement.style.backgroundImage = `url(${avatarUrl})`;
+                    localStorage.setItem("avatarPerfil", avatarUrl);
+                }
+            };                                                                                                          reader.readAsDataURL(file);
+        }
+    };
+    input.click();
+}
+
+
+
+function abrirEditorDePerfil() {
+    document.getElementById("profileEditor").style.display = "block";
+}
+
+function cerrarEditorDePerfil() {
+    document.getElementById("profileEditor").style.display = "none";
+}
+
+function actualizarContadores() {
+    let tweetsCount = document.querySelectorAll('.post').length;
+    let followedProfiles = JSON.parse(localStorage.getItem('followedProfiles')) || [];
+
+    document.getElementById('tweetsCount').innerText = tweetsCount;
+    document.getElementById('followingCount').innerText = followedProfiles.length;
+
+    let seguidores = parseInt(localStorage.getItem('followersCount')) || 100;
+    document.getElementById('followersCount').innerText = seguidores;
+}
+
+window.onload = function() {
+    actualizarPerfil();
+    mostrarAmigos();
+    actualizarContadores();
+};
+
+
+function mostrarAmigos() {
+    // Obtener los perfiles seguidos de localStorage
+    let followedProfiles = JSON.parse(localStorage.getItem('followedProfiles')) || [];
+
+    const amigosContainer = document.getElementById('amigosContainer');
+    amigosContainer.innerHTML = ''; // Limpiar la lista de amigos actual
+
+    // Mostrar los perfiles seguidos
+    followedProfiles.forEach(username => {
+        const amigoItem = document.createElement('div');
+        amigoItem.classList.add('amigo-item');
+        amigoItem.textContent = username;
+        amigosContainer.appendChild(amigoItem);
+    });
+}
+
+    // Simulación de datos obtenidos de una API
+    function obtenerDatosDeAPI() {
+        // Simulamos la respuesta de una API
+        const apiData = {
+            tweetsCount: 1500,
+            followersCount: 1000,
+            followingCount: 500
+        };
+
+        // Actualizamos las variables
+        tweetsCount = apiData.tweetsCount;
+        followersCount = apiData.followersCount;
+        followingCount = apiData.followingCount;
+                                                                                                                    // Luego actualizamos el perfil
+        actualizarPerfil();
+    }
+
+    // Llamar a la función para obtener los datos de la API
+    obtenerDatosDeAPI();
+
+    // Abrir modal de edición
+    function abrirEditor() {
+        document.getElementById('edit-modal').style.display = 'flex';
+
+        // Cargar datos en el formulario                                                                          document.getElementById('editName').value = document.getElementById('nombrePerfil').innerText;
+        document.getElementById('editUsername').value = document.getElementById('usuarioPerfil').innerText;
+        document.getElementById('editBio').value = document.getElementById('bioPerfil').innerText;
+        document.getElementById('editLocation').value = document.getElementById('locationPerfil').innerText;
+        document.getElementById('editWebsite').value = document.getElementById('websitePerfil').innerText;
+        document.getElementById('editAvatar').value = document.getElementById('avatarPerfil').style.backgroundImage.slice(5, -2);
+    }
+
+    // Cerrar modal de edición
+    function cerrarEditor() {
+        document.getElementById('edit-modal').style.display = 'none';
+    }
+
+    // Guardar cambios
+    function guardarCambios() {
+    let name = document.getElementById('editName').value.trim();
+    let username = document.getElementById('editUsername').value.trim();
+    let bio = document.getElementById('editBio').value.trim();
+    let location = document.getElementById('editLocation').value.trim();
+    let website = document.getElementById('editWebsite').value.trim();
+    let avatar = document.getElementById('editAvatar').value.trim();
+
+    // Validar campos obligatorios
+    if (!name || !username) {
+        alert("¡Nombre y nombre de usuario son campos obligatorios!");
+        return;
+    }
+
+    // Guardar los cambios en localStorage
+    localStorage.setItem('name', name);
+    localStorage.setItem('username', username);
+    localStorage.setItem('bio', bio);
+    localStorage.setItem('location', location);
+    localStorage.setItem('website', website);
+    localStorage.setItem('avatar', avatar);
+
+    // Actualizar los datos en la interfaz
+    document.getElementById('nombrePerfil').innerText = name;
+    document.getElementById('usuarioPerfil').innerText = username;
+    document.getElementById('bioPerfil').innerText = bio;
+    document.getElementById('locationPerfil').innerText = location;
+    document.getElementById('websitePerfil').innerText = website;
+
+    // Actualizar avatar si se proporcionó una URL
+    if (avatar) {
+        document.getElementById('avatarPerfil').style.backgroundImage = `url(${avatar})`;
+    }
+
+    // Cerrar modal después de guardar los cambios
+    cerrarEditor();
+}
+
+
+// Verificar si ya existe un ID único para este dispositivo
+let deviceID = localStorage.getItem("deviceID");
+
+if (!deviceID) {
+    // Si no existe, generar uno nuevo
+    deviceID = crypto.randomUUID();
+    localStorage.setItem("deviceID", deviceID);
+}
+
+
+
+// Verificar si ya existe un nombre de usuario para este dispositivo
+let username = localStorage.getItem("username");
+
+if (!username) {
+    setTimeout(() => {
+        username = prompt("Introduce tu nombre de usuario único:");
+        if (username && username.trim() !== "") {
+            localStorage.setItem("username", username);
+            document.getElementById("usernameDisplay").innerText = `Usuario: ${username}`;
+        }
+    }, 500); // Agrega un pequeño delay para evitar bloqueos
+} else {
+    document.getElementById("usernameDisplay").innerText = `Usuario: ${username}`;
+}
+
+
+// Mostrar el nombre de usuario en la página
+document.getElementById("usernameDisplay").innerText = `Usuario: ${username}`;
+
+// Función para abrir el modal de amigos
+function openFriendsModal() {
+    document.getElementById("friendsModal").style.display = "block";
+    mostrarAmigos(); // Mostrar amigos cuando se abra el modal
+}
+
+// Función para cerrar el modal de amigos
+function cerrarModalFriends() {
+    document.getElementById("friendsModal").style.display = "none";
+}
+
+// Función para mostrar la lista de amigos
+function mostrarAmigos() {
+    // Obtener los perfiles seguidos de localStorage
+    let followedProfiles = JSON.parse(localStorage.getItem('followedProfiles')) || [];
+
+    const amigosContainer = document.getElementById('amigosContainer');
+    amigosContainer.innerHTML = ''; // Limpiar la lista de amigos actual
+
+    // Mostrar los perfiles seguidos
+    followedProfiles.forEach(username => {
+        const amigoItem = document.createElement('div');
+        amigoItem.classList.add('amigo-item');
+        amigoItem.textContent = username;
+        amigosContainer.appendChild(amigoItem);
+    });
+}
+
+window.onload = function() {
+    mostrarAmigos();  // Mostrar amigos cuando se recarga la página
+};
+function cambiarFotoPerfil() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.onchange = function(event) {
+        let file = event.target.files[0];
+
+        if (file) {
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                let avatarUrl = e.target.result;
+                document.getElementById("avatarPerfil").style.backgroundImage = `url(${avatarUrl})`;
+
+                // Guardar en localStorage para que se mantenga después de recargar la página
+                localStorage.setItem("avatarPerfil", avatarUrl);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
+    input.click();
+}
+
+// Cargar la imagen guardada al abrir la página
+window.onload = function() {
+    let savedAvatar = localStorage.getItem("avatarPerfil");                                                     if (savedAvatar) {
+        document.getElementById("avatarPerfil").style.backgroundImage = `url(${savedAvatar})`;
+    }
+
+    // Asegurar que se carguen otras funciones necesarias al cargar la página
+    actualizarPerfil();                                                                                         mostrarAmigos();
+    actualizarContadores();
+};
+
+// Función para abrir el modal de Pedidos Disponibles
+function abrirModalPedidos() {
+    document.getElementById("modalPedidos").style.display = "flex";
+    cargarPedidos(); // Cargar los pedidos guardados
+}
+
+// Función para cerrar el modal de Pedidos Disponibles
+function cerrarModalPedidos() {
+    document.getElementById("modalPedidos").style.display = "none";
+}
+
+// Función para publicar un pedido (cuando el usuario hace una solicitud)
+function publicar() {
+    let textoPedido = document.getElementById("postText").value;
+
+    if (textoPedido.trim() === "") {
+        alert("Por favor, escribe una solicitud.");
+        return;
+    }
+
+    // Crear un nuevo pedido
+    let nuevoPedido = {
+        nombre: textoPedido,
+        descripcion: "Solicitud de usuario",
+        estado: "Pendiente"
+    };
+
+    // Obtener pedidos guardados en localStorage
+    let pedidosGuardados = localStorage.getItem("pedidos");
+    let pedidos = pedidosGuardados ? JSON.parse(pedidosGuardados) : [];
+
+    // Agregar el nuevo pedido
+    pedidos.push(nuevoPedido);
+
+    // Guardar nuevamente en localStorage
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+    // Limpiar el campo de entrada
+    document.getElementById("postText").value = "";
+
+    // Refrescar la lista de pedidos
+    cargarPedidos();
+}
+
+// Función para cargar pedidos dinámicamente
+function cargarPedidos() {
+    let listaPedidos = document.getElementById("listaPedidos");
+    if (!listaPedidos) return;
+
+    listaPedidos.innerHTML = ""; // Limpiar antes de cargar
+
+    // Obtener pedidos guardados en localStorage
+    let pedidosGuardados = localStorage.getItem("pedidos");
+    let pedidos = pedidosGuardados ? JSON.parse(pedidosGuardados) : [];
+
+    // Mostrar cada pedido
+    pedidos.forEach(pedido => {
+        let pedidoElemento = document.createElement("div");
+        pedidoElemento.classList.add("pedido-item");
+
+        let estadoColor = pedido.estado === "Pendiente" ? "red" :
+                          pedido.estado === "En proceso" ? "orange" : "green";
+
+        pedidoElemento.innerHTML = `
+            <h3>${pedido.nombre}</h3>
+            <p>${pedido.descripcion}</p>
+            <strong style="color: ${estadoColor};">${pedido.estado}</strong>
+        `;
+        listaPedidos.appendChild(pedidoElemento);
+    });
+}
+
+
+
+</script>
+</body>
+</html>
