@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,7 +167,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
         <span id="profileName" class="font-semibold"></span>
     </div>
 
-    
+
     <!-- MODAL PARA EDITAR PERFIL -->
 <div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div class="bg-white p-6 rounded-lg shadow-lg text-center w-96 relative">
@@ -202,7 +203,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
     <!-- Contenido del modal -->
     <div id="modalContent" class="bg-white p-6 rounded-lg shadow-lg text-center w-96 relative transform scale-95 opacity-0 transition-transform transition-opacity duration-300">
-        
+
         <!-- Botón de cerrar -->
         <button id="closeProfileModal" class="absolute top-2 right-2 text-gray-600 text-2xl hover:text-gray-800">
             &times;
@@ -283,8 +284,8 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import { updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    
-		
+
+
     // 🔥 Configuración de Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyAPOx1dEkYWE7q3U3VVoicnUuJDSDYnBnA",
@@ -318,7 +319,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     }
 });
 
-     
+
    saveProfilePicBtn.addEventListener("click", async function () {
     const user = auth.currentUser;
     if (!user || !profilePicInput.files.length) {
@@ -443,9 +444,8 @@ async function login() {
         }
     }
 
- 
 
-   
+                                                                                                                                                                                    
     // 📌 Cargar perfil desde Firestore
 async function loadUserProfile(uid) {
     try {
@@ -476,8 +476,7 @@ async function loadUserProfile(uid) {
 
         const profilePicModal = document.getElementById("profilePicModal");
         if (profilePicModal) {
-            profilePicModal.src = profilePhoto;
-            console.log("🖼️ Imagen cargada en el modal:", profilePhoto);
+            profilePicModal.src = profilePhoto;                                                                                                                                                 console.log("🖼️ Imagen cargada en el modal:", profilePhoto);
         }
 
     } catch (error) {
@@ -488,8 +487,8 @@ async function loadUserProfile(uid) {
 
 // 📌 Actualiza tu función updateUI así para evitar conflictos y pérdida de imagen:
 function updateUI(user) {
-    if (!user) return;                                                                                                                 
-    console.log("📌 Tipo de cuenta detectado:", user.accountType);                                                                     
+    if (!user) return;
+    console.log("📌 Tipo de cuenta detectado:", user.accountType);
     const profilePic = document.getElementById("profilePic");
     const profilePicSidebar = document.getElementById("profilePicSidebar");
     // Usamos la foto original de Google para la interfaz principal
@@ -583,12 +582,8 @@ onAuthStateChanged(auth, async (user) => {
             if (profileName) {
                 profileName.textContent = userData.name || user.displayName || "Usuario";
             }
-
-            // ✅ Sincronizar la UI del tipo de cuenta (texto del botón y más)
-            await syncAccountTypeUI(user);
-
-        } catch (error) {
-            console.error("❌ Error al recuperar datos del usuario:", error);
+                                                                                                                                                                                                // ✅ Sincronizar la UI del tipo de cuenta (texto del botón y más)                                                                                                                  await syncAccountTypeUI(user);                                                                                                                                          
+        } catch (error) {                                                                                                                                                                       console.error("❌ Error al recuperar datos del usuario:", error);
         }
 
         if (profilePic) profilePic.src = mainPhoto;
@@ -626,8 +621,7 @@ function hideProfileOnLogout() {
     if (profilePicSidebar) profilePicSidebar.src = "";
 }
 
-
-// 📌 Eventos de UI
+                                                                                                                                                                                    // 📌 Eventos de UI
 document.getElementById("loginBtn")?.addEventListener("click", () => {
     document.getElementById("loginModal")?.classList.remove("hidden");
 });
@@ -639,8 +633,7 @@ document.getElementById("closeModal")?.addEventListener("click", () => {
 document.getElementById("googleLoginBtn")?.addEventListener("click", login);
 document.getElementById("sellerLoginBtn")?.addEventListener("click", loginAsSeller);
 document.getElementById("logoutBtn")?.addEventListener("click", logout);
-
-document.getElementById("editProfileBtn")?.addEventListener("click", async () => {
+                                                                                                                                                                                    document.getElementById("editProfileBtn")?.addEventListener("click", async () => {
     document.getElementById("editProfileModal")?.classList.remove("hidden");
 
     const user = auth.currentUser;
@@ -669,8 +662,7 @@ document.getElementById("closeEditProfileModal")?.addEventListener("click", () =
 
 document.getElementById("saveProfileBtn")?.addEventListener("click", async () => {
     const user = auth.currentUser;
-    if (!user) {
-        alert("❌ No hay usuario autenticado.");
+    if (!user) {                                                                                                                                                                            alert("❌ No hay usuario autenticado.");
         return;
     }
 
@@ -736,8 +728,7 @@ function openModal() {
 
                 profileModal.classList.remove("hidden");
                 profileModal.style.display = "flex";
-                modalOverlay.classList.remove("hidden");
-
+                modalOverlay.classList.remove("hidden");                                                                                                                            
                 setTimeout(() => {
                     modalContent.classList.remove("scale-95", "opacity-0");
                     modalContent.classList.add("scale-100", "opacity-100");
@@ -894,8 +885,7 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
         const userRef = doc(db, "usuarios", user.uid);
         await setDoc(userRef, {
             name: newName,
-            username: newUsername,
-            bio: newBio
+            username: newUsername,                                                                                                                                                              bio: newBio
         }, { merge: true });
 
         alert("✅ Perfil actualizado con éxito.");
@@ -907,8 +897,7 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
             const updatedData = updatedSnap.data();
             document.getElementById("modalProfileName").textContent = updatedData.name;
             document.getElementById("modalProfileUsername").textContent = "@" + updatedData.username;
-            document.getElementById("modalProfileBio").textContent = updatedData.bio || "Sin biografía";
-        }
+            document.getElementById("modalProfileBio").textContent = updatedData.bio || "Sin biografía";                                                                                    }
 
         document.getElementById("editProfileModal").classList.add("hidden");
 
@@ -998,5 +987,4 @@ document.getElementById("closeSellerModal")?.addEventListener("click", () => {
 
 
 </script>
-</body>
-</html>
+</body>                                                                                                                                                                             </html>
