@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <style>
 
@@ -77,65 +78,155 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     display: none;
 }
 
+
+
+
+
 </style>
 </head>
 <body class="bg-gray-100">
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-1/4 bg-white p-5 shadow-md">
-            <!-- Contenedor de Login / Perfil -->
-            <div id="authContainer">
-                <button id="loginBtn" class="w-full bg-blue-500 text-white p-2 rounded mb-4">Login</button>
+    <div class="flex min-h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white p-5 shadow-md sticky top-0 h-screen overflow-y-auto">
+        <!-- Logo/Brand -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-blue-600">SocialApp</h1>
+        </div>
 
-                <!-- Contenedor del perfil (oculto por defecto) -->
-                <div id="profileContainerSidebar" class="hidden flex items-center justify-center">
-                    <img id="profilePicSidebar" src="https://via.placeholder.com/50" alt="Perfil" class="w-10 h-10 rounded-full">
-                </div>
-            </div>
+        <!-- Contenedor de Login / Perfil -->
+        <div id="authContainer" class="mb-6">
+            <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg mb-4 transition duration-200">
+                Iniciar sesión
+            </button>
 
-            <nav>
-                <ul>
-                    <li class="mb-2"><a href="#" class="block p-2 hover:bg-gray-200 rounded">Pedidos disponibles</a></li>
-                    <li class="mb-2"><a href="#" class="block p-2 hover:bg-gray-200 rounded">Notificaciones</a></li>
-                    <li class="mb-2"><a href="#" class="block p-2 hover:bg-gray-200 rounded">Mensajes</a></li>
-                    <button id="editProfileBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-2">Editar perfil</button>
-                </ul>
-            </nav>
-            <button class="w-full bg-blue-500 text-white p-2 rounded mt-4">Publicar</button>
-        </aside>
+            <!-- Contenedor del perfil (oculto por defecto) -->
+<div id="profileContainerSidebar" class="hidden flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition duration-200">
+    <img id="profilePicSidebar" src="https://via.placeholder.com/50" alt="Perfil" class="w-10 h-10 rounded-full object-cover">
+    <span id="usernameSidebar" class="font-medium">Usuario</span>
+</div>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-6">
-            <div class="bg-white p-5 rounded shadow-md mb-4">
-                <input type="text" placeholder="¿Qué necesitas?" class="w-full p-2 border rounded mb-2">
-                <button class="bg-blue-500 text-white p-2 rounded w-full">Subir archivo</button>
-                <button class="bg-blue-500 text-white p-2 rounded w-full mt-2">Solicitar</button>
-            </div>
-            <div class="bg-white p-5 rounded shadow-md">
-                <div class="flex items-center mb-2">
-                    <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                    <span class="ml-2 text-blue-600">@usuario</span>
-                </div>
-                <p class="text-gray-700">Este es un ejemplo de publicación.</p>
-                <div class="bg-gray-200 w-full h-40 mt-2 flex items-center justify-center">Imagen de publicación</div>
-                <div class="flex mt-3 space-x-4">
-                    <button class="text-gray-600">💬 Comentar</button>
-                    <button class="text-red-500">❤️</button>
-                    <button class="text-gray-600">🔗</button>
-                </div>
-            </div>
-        </main>
-
-        <!-- Trends Section -->
-        <aside class="w-1/4 p-5 bg-white shadow-md">
-            <h2 class="font-bold text-lg mb-3">Pedidos recientes</h2>
-            <ul>
-                <li class="text-blue-600">#Tendencia1</li>
-                <li class="text-blue-600">#Tendencia2</li>
-                <li class="text-blue-600">#Tendencia3</li>
+        <!-- Menú de navegación -->
+        <nav class="mb-6">
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                        <span class="mr-3">📦</span>
+                        <span>Pedidos disponibles</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                        <span class="mr-3">🔔</span>
+                        <span>Notificaciones</span>
+                        <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                        <span class="mr-3">💬</span>
+                        <span>Mensajes</span>
+                    </a>
+                </li>
+                <li>
+                    <button id="editProfileBtn" class="w-full flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                        <span class="mr-3">✏️</span>
+                        <span>Editar perfil</span>
+                    </button>
+                </li>
             </ul>
-        </aside>
+        </nav>
+
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg mt-4 transition duration-200 shadow-md">
+            + Crear publicación
+        </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 max-w-2xl mx-auto">
+  <!-- Creador de publicaciones -->
+  <div class="bg-white p-5 rounded-xl shadow-md mb-6">
+    <textarea id="postInput" placeholder="¿Qué necesitas?"
+      rows="3"
+      class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <label for="postImageInput" class="cursor-pointer text-gray-600 hover:text-blue-600 transition">
+          📷 Foto/Video
+        </label>
+        <input id="postImageInput" type="file" accept="image/*,video/*" class="hidden">
+      </div>
+      <span id="fileInfo" class="text-sm text-gray-500 truncate max-w-xs"></span>
     </div>
+
+    <button id="publishBtn" disabled
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition">
+      Publicar
+    </button>
+  </div>
+
+  <!-- Contenedor de publicaciones -->
+  <div id="postsContainer" class="space-y-4"></div>
+</main>
+
+    <!-- Trends Section -->
+    <aside class="w-80 p-5 bg-white shadow-md sticky top-0 h-screen overflow-y-auto hidden lg:block">
+        <div class="bg-gray-100 p-4 rounded-xl mb-6">
+            <h2 class="font-bold text-lg mb-3">📌 Pedidos recientes</h2>
+            <ul class="space-y-3">
+                <li>
+                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
+                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#1</span>
+                        <div>
+                            <h3 class="font-medium">Diseño de logo</h3>
+                            <p class="text-sm text-gray-600">5 ofertas recibidas</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
+                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#2</span>
+                        <div>
+                            <h3 class="font-medium">Desarrollo web</h3>
+                            <p class="text-sm text-gray-600">3 ofertas recibidas</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
+                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#3</span>
+                        <div>
+                            <h3 class="font-medium">Traducción</h3>
+                            <p class="text-sm text-gray-600">2 ofertas recibidas</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-xl">
+            <h2 class="font-bold text-lg mb-3">🔥 Tendencias</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
+                        #DiseñoGrafico
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
+                        #DesarrolloWeb
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
+                        #Freelancer
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
 
     <!-- Modal de Login -->
     <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -194,6 +285,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
   </div>
 </div>
 
+   
 
    <!-- MODAL DEL PERFIL -->
 <div id="profileModal" class="modal hidden fixed inset-0 flex items-center justify-center z-50">
@@ -201,8 +293,8 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
 
     <!-- Contenido del modal -->
-    <div id="modalContent" class="bg-white p-6 rounded-lg shadow-lg text-center w-96 relative transform scale-95 opacity-0 transition-transform transition-opacity duration-300">
-        
+    <div id="modalContent" class="bg-white p-6 rounded-lg shadow-lg text-center w-96 relative transform scale-95 opacity-0 transition-all duration-300 ease-in-out">
+
         <!-- Botón de cerrar -->
         <button id="closeProfileModal" class="absolute top-2 right-2 text-gray-600 text-2xl hover:text-gray-800">
             &times;
@@ -222,7 +314,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
         <p id="modalProfileUsername" class="text-gray-600">@charly</p>
         <p id="modalProfileBio" class="text-gray-500 text-sm mb-4">Esta es la biografía del usuario.</p>
 
-        <!-- Botón de editar perfil (ahora con ID para detectarlo en JS) -->
+        <!-- Botón de editar perfil -->
         <button id="openEditProfileFromModal" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
             Editar perfil
         </button>
@@ -241,49 +333,101 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     </div>
 </div>
 
+
     <!-- MODAL PARA VENDEDORES -->
-<div id="sellerProfileModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg text-center w-[500px] relative">
-        <!-- Botón de cerrar -->
-        <button id="closeSellerModal" class="absolute top-2 right-2 text-gray-600 text-xl hover:text-gray-800">
-            &times;
-        </button>
+<div id="sellerProfileModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div id="sellerModalContent" class="bg-white p-6 rounded-lg shadow-lg text-center w-[500px] relative">
 
-        <!-- Imagen de perfil -->
-        <img id="sellerProfilePic" src="https://via.placeholder.com/100" class="w-24 h-24 rounded-full mx-auto mb-2">
+    <!-- Botón de cerrar -->
+    <button id="closeSellerModal" class="absolute top-2 right-2 text-gray-600 text-xl hover:text-gray-800">
+      &times;
+    </button>
 
-        <h2 id="sellerName" class="text-xl font-bold">Nombre del Vendedor</h2>
-        <p id="sellerUsername" class="text-gray-600">@usuario</p>
-        <p id="sellerBio" class="text-gray-500 text-sm mb-4">Biografía del vendedor.</p>
+    <!-- Imagen de perfil -->
+    <img id="sellerProfilePic" src="https://via.placeholder.com/100" class="w-24 h-24 rounded-full mx-auto mb-2" />
 
-        <!-- Botones y opciones -->
-        <button class="bg-green-500 text-white px-4 py-2 rounded mb-2 w-full">📦 Ver pedidos</button>
-        <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2 w-full">💰 Gestionar ingresos</button>
-        <button id="editSellerProfileBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-2 w-full">✏ Editar perfil</button>
+    <h2 id="sellerName" class="text-xl font-bold">Nombre del Vendedor</h2>
+    <p id="sellerUsername" class="text-gray-600">@usuario</p>
+    <p id="sellerBio" class="text-gray-500 text-sm mb-4">Biografía del vendedor.</p>
 
-        <!-- Estadísticas -->
-        <div class="flex justify-around text-gray-700 text-sm mt-3">
-            <span><b id="sellerTweets">0</b> Publicaciones</span>
-            <span><b id="sellerFollowing">0</b> Siguiendo</span>
-            <span><b id="sellerFollowers">0</b> Seguidores</span>
-        </div>
+    <!-- Botones funcionales -->
+    <button id="openOrdersModal" class="bg-green-500 text-white px-4 py-2 rounded mb-2 w-full">📦 Ver pedidos</button>
+    <button id="openEarningsModal" class="bg-yellow-500 text-white px-4 py-2 rounded mb-2 w-full">💰 Gestionar ingresos</button>
+    <button id="editSellerProfileBtn" class="bg-blue-500 text-white px-4 py-2 rounded mb-2 w-full">✏ Editar perfil</button>
 
-        <!-- Historial -->
-        <h3 class="mt-4 font-bold text-gray-800">Historial de Ventas</h3>
-        <div class="bg-gray-100 p-2 rounded mt-2">Último Pedido</div>
-        <div class="bg-gray-100 p-2 rounded mt-2">Producto Más Vendido</div>
+    <!-- Estadísticas -->
+    <div class="flex justify-around text-gray-700 text-sm mt-3">
+      <span><b id="sellerTweets">0</b> Publicaciones</span>
+      <span><b id="sellerFollowing">0</b> Siguiendo</span>
+      <span><b id="sellerFollowers">0</b> Seguidores</span>
     </div>
+
+    <!-- Historial -->
+    <h3 class="mt-4 font-bold text-gray-800">Historial de Ventas</h3>
+    <div class="bg-gray-100 p-2 rounded mt-2">Último Pedido</div>
+    <div class="bg-gray-100 p-2 rounded mt-2">Producto Más Vendido</div>
+  </div>
+</div>
+
+
+<!-- MODAL: Ver Pedidos -->
+<div id="ordersModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-[400px] text-center relative">
+    <button id="closeOrdersModal" class="absolute top-2 right-2 text-gray-600 text-xl hover:text-gray-800">&times;</button>
+    <h2 class="text-xl font-bold mb-4">📦 Tus Pedidos</h2>
+    <div class="text-sm text-gray-600">
+      <p>Aquí aparecerán los pedidos realizados por tus compradores.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Gestionar Ingresos -->
+<div id="earningsModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-[400px] text-center relative">
+    <button id="closeEarningsModal" class="absolute top-2 right-2 text-gray-600 text-xl hover:text-gray-800">&times;</button>
+    <h2 class="text-xl font-bold mb-4">💰 Gestionar Ingresos</h2>
+    <div class="text-sm text-gray-600">
+      <p>Resumen de tus ingresos y opciones para retirar fondos.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de imagen de perfil -->
+<div id="profilePicPreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
+    <img id="previewProfilePic" src="" class="w-full h-full object-cover" />
+  </div>
 </div>
 
 
 
-
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    addDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    onSnapshot,
+    collection
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Aquí continúa el resto de tu script...
+
+
 		
     // 🔥 Configuración de Firebase
     const firebaseConfig = {
@@ -368,6 +512,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
     // 📌 Función para iniciar sesión con Google
+    
     // 📌 Función para iniciar sesión con Google
 async function login() {
     try {
@@ -392,6 +537,9 @@ async function login() {
             alert("ℹ️ Usuario ya existía en Firestore");
         }
 
+        // ✅ Cerrar el modal de bienvenida
+        document.getElementById("loginModal")?.classList.add("hidden");
+
         await loadUserProfile(user.uid);
         closeModal();
 
@@ -402,34 +550,50 @@ async function login() {
 }
 
 
-
     // 📌 Función para iniciar sesión como vendedor
     async function loginAsSeller() {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            console.log("✅ Usuario autenticado como vendedor:", user);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("✅ Usuario autenticado como vendedor:", user);
 
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
+    const userRef = doc(db, "usuarios", user.uid);
+    const userSnap = await getDoc(userRef);
 
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    name: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    accountType: "seller"
-                });
-            } else {
-                await setDoc(userRef, { accountType: "seller" }, { merge: true });
-            }
-
-            closeModal();
-            loadUserProfile(user.uid);
-        } catch (error) {
-            console.error("❌ Error en login como vendedor:", error);
-        }
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        accountType: "seller"
+      });
+    } else {
+      await setDoc(userRef, { accountType: "seller" }, { merge: true });
     }
+
+    // ✅ Cerrar modal de bienvenida
+    document.getElementById("loginModal")?.classList.add("hidden");
+
+    // ✅ Cerrar otros modales
+    closeModal();
+
+    // ✅ Cargar y sincronizar datos del perfil
+    await loadUserProfile(user.uid);
+    await syncAccountTypeUI(user); // 🔥 ACTUALIZA EL MODAL DE VENDEDOR
+
+    // ✅ Mostrar el modal de vendedor directamente
+    const sellerModal = document.getElementById("sellerProfileModal");
+    if (sellerModal) {
+      sellerModal.classList.remove("hidden");
+      sellerModal.style.display = "flex";
+    }
+
+  } catch (error) {
+    console.error("❌ Error en login como vendedor:", error);
+  }
+}
+
+
 
     // 📌 Función para cerrar sesión
     async function logout() {
@@ -444,7 +608,6 @@ async function login() {
     }
 
  
-
    
     // 📌 Cargar perfil desde Firestore
 async function loadUserProfile(uid) {
@@ -549,63 +712,140 @@ async function syncAccountTypeUI(user) {
 
 
 
-// 📌 Mantener la sesión activa
+
+
+
+
+
+let unsubscribePosts = null;
+let userDataLoaded = false;
+
 onAuthStateChanged(auth, async (user) => {
-    console.log("🔄 Detectando cambios en la sesión...", user);
+  console.log("🔄 Detectando cambios en la sesión...", user);
 
-    const loginBtn = document.getElementById("loginBtn");
-    const profileContainer = document.getElementById("profileContainer");
-    const profilePic = document.getElementById("profilePic");
-    const profileName = document.getElementById("profileName");
-    const profileContainerSidebar = document.getElementById("profileContainerSidebar");
-    const profilePicSidebar = document.getElementById("profilePicSidebar");
-    const profilePicModal = document.getElementById("profilePicModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const profileContainer = document.getElementById("profileContainer");
+  const profilePic = document.getElementById("profilePic");
+  const profileName = document.getElementById("profileName");
+  const profileContainerSidebar = document.getElementById("profileContainerSidebar");
+  const profilePicSidebar = document.getElementById("profilePicSidebar");
+  const usernameSidebar = document.getElementById("usernameSidebar");
+  const profilePicModal = document.getElementById("profilePicModal");
+  const publishBtn = document.getElementById("publishBtn");
 
-    if (user) {
-        console.log("✅ Sesión detectada: ", user.uid);
+  if (user) {
+    console.log("✅ Sesión detectada: ", user.uid);
 
-        let mainPhoto = user.photoURL || "https://via.placeholder.com/40";
+    let mainPhoto = user.photoURL || "https://via.placeholder.com/40";
 
-        try {
-            const userRef = doc(db, "usuarios", user.uid);
-            const userSnap = await getDoc(userRef);
-            let userData = userSnap.exists() ? userSnap.data() : {};
+    try {
+      const userRef = doc(db, "usuarios", user.uid);
+      const userSnap = await getDoc(userRef);
+      let userData = userSnap.exists() ? userSnap.data() : null;
 
-            console.log("📥 Datos del usuario recuperados de Firestore:", userData);
+      if (!userData) {
+        console.log("🆕 Usuario no existía, creando perfil con UID...");
 
-            mainPhoto = userData.modalPhotoURL || userData.photoURL || mainPhoto;
+        userData = {
+          uid: user.uid,
+          username: user.displayName?.toLowerCase().replace(/\s+/g, "_") || "usuario_" + user.uid.slice(0, 4),
+          name: user.displayName || "Usuario",
+          photoURL: user.photoURL || "https://via.placeholder.com/40",
+          modalPhotoURL: user.photoURL || "https://via.placeholder.com/40",
+          accountType: "usuario",
+          createdAt: serverTimestamp()
+        };
 
-            if (profilePicModal) {
-                profilePicModal.src = mainPhoto;
-                console.log("🖼️ Imagen del modal actualizada:", mainPhoto);
-            }
+        await setDoc(userRef, userData);
+        console.log("📝 Perfil creado correctamente en Firestore.");
 
-            if (profileName) {
-                profileName.textContent = userData.name || user.displayName || "Usuario";
-            }
+        await new Promise(res => setTimeout(res, 300));
+      }
 
-            // ✅ Sincronizar la UI del tipo de cuenta (texto del botón y más)
-            await syncAccountTypeUI(user);
+      mainPhoto = userData.modalPhotoURL || userData.photoURL || mainPhoto;
 
-        } catch (error) {
-            console.error("❌ Error al recuperar datos del usuario:", error);
+      if (profilePicModal) profilePicModal.src = mainPhoto;
+      if (profileName) profileName.textContent = userData.name || "Usuario";
+      if (profilePic) profilePic.src = mainPhoto;
+      if (profilePicSidebar) profilePicSidebar.src = mainPhoto;
+      if (usernameSidebar) usernameSidebar.textContent = userData.name || "Usuario";
+
+      await syncAccountTypeUI(user);
+
+      if (loginBtn) loginBtn.style.display = "none";
+      if (profileContainer) profileContainer.style.display = "block";
+      if (profileContainerSidebar) profileContainerSidebar.classList.remove("hidden");
+
+      // 👉 Abrir tu propio perfil desde el sidebar
+      profileContainerSidebar.addEventListener("click", () => {
+        const isSeller = userData.accountType === "vendedor";
+
+        // Cerrar ambos modales primero
+        document.getElementById("profileModal").classList.add("hidden");
+        document.getElementById("sellerProfileModal").classList.add("hidden");
+
+        if (isSeller) {
+          // 🧼 Limpiar contenido del modal vendedor antes de reutilizar
+          document.getElementById("sellerProfilePic").src = "https://via.placeholder.com/100";
+          document.getElementById("sellerName").textContent = "";
+          document.getElementById("sellerUsername").textContent = "";
+          document.getElementById("sellerBio").textContent = "";
+
+          // 👤 Insertar tus datos
+          document.getElementById("sellerProfilePic").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/100";
+          document.getElementById("sellerName").textContent = userData.name || "Vendedor";
+          document.getElementById("sellerUsername").textContent = "@" + (userData.username || "usuario");
+          document.getElementById("sellerBio").textContent = userData.bio || "";
+
+          // 🟢 Mostrar modal vendedor
+          document.getElementById("sellerProfileModal").classList.remove("hidden");
+        } else {
+          document.getElementById("modalProfileName").textContent = userData.name || "Usuario";
+          document.getElementById("modalProfileUsername").textContent = "@" + (userData.username || "usuario");
+          document.getElementById("modalProfileBio").textContent = userData.bio || "";
+          document.getElementById("profilePicModal").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/80";
+
+          document.getElementById("profileModal").classList.remove("hidden");
+          document.getElementById("modalContent").classList.remove("scale-95", "opacity-0");
         }
+      });
 
-        if (profilePic) profilePic.src = mainPhoto;
-        if (profilePicSidebar) profilePicSidebar.src = mainPhoto;
+      if (unsubscribePosts) unsubscribePosts();
 
-        if (loginBtn) loginBtn.style.display = "none";
-        if (profileContainer) profileContainer.style.display = "block";
-        if (profileContainerSidebar) profileContainerSidebar.classList.remove("hidden");
+      console.log("🟢 Esperando para cargar publicaciones...");
+      setTimeout(() => {
+        console.log("📡 Iniciando listenForPosts()");
+        listenForPosts();
+      }, 400);
 
-    } else {
-        console.log("🚪 No hay usuario, cerrando sesión visual...");
+      userDataLoaded = true;
+      if (publishBtn) publishBtn.disabled = false;
 
-        if (loginBtn) loginBtn.style.display = "block";
-        if (profileContainer) profileContainer.style.display = "none";
-        hideProfileOnLogout();
+    } catch (error) {
+      console.error("❌ Error al recuperar/crear datos del usuario:", error);
+      if (publishBtn) publishBtn.disabled = true;
+      userDataLoaded = false;
     }
+
+  } else {
+    console.log("🚪 No hay usuario, cerrando sesión visual...");
+
+    if (loginBtn) loginBtn.style.display = "block";
+    if (profileContainer) profileContainer.style.display = "none";
+    if (profileContainerSidebar) profileContainerSidebar.classList.add("hidden");
+    hideProfileOnLogout();
+
+    if (unsubscribePosts) unsubscribePosts();
+
+    if (publishBtn) publishBtn.disabled = true;
+    userDataLoaded = false;
+  }
 });
+
+
+
+
+
 
 
 
@@ -622,7 +862,40 @@ function hideProfileOnLogout() {
     if (profileName) profileName.textContent = "";
     if (loginBtn) loginBtn.style.display = "block";
 
-    const profilePicSidebar = document.getElementById("profilePicSidebar");
+// Sistema de notificaciones mejorado
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type} fixed bottom-4 right-4 px-4 py-2 rounded shadow-lg transition`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+// Limpieza al salir de la página
+window.addEventListener('beforeunload', () => {
+    if (unsubscribePosts) {
+        unsubscribePosts();
+    }
+});
+
+// Inicialización de la persistencia de Firestore
+async function enablePersistence() {
+    try {
+        await enableIndexedDbPersistence(db);
+        console.log("Persistencia de Firestore habilitada");
+    } catch (err) {
+        if (err.code == 'failed-precondition') {
+            console.warn("Persistencia falló: Múltiples pestañas abiertas");
+        } else if (err.code == 'unimplemented') {
+            console.warn("Persistencia no soportada en este navegador");
+        }
+    }
+}
+
+enablePersistence();    const profilePicSidebar = document.getElementById("profilePicSidebar");
     if (profilePicSidebar) profilePicSidebar.src = "";
 }
 
@@ -780,7 +1053,6 @@ function closeModal() {
 }
 
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const profileContainerSidebar = document.getElementById("profileContainerSidebar");
     const closeProfileModal = document.getElementById("closeProfileModal");
@@ -859,7 +1131,6 @@ function openEditProfileModal() {
         });
     }
 }
-
 
 
 // Abrir modal de edición desde el perfil de vendedor
@@ -985,14 +1256,411 @@ document.getElementById("switchToSellerBtn")?.addEventListener("click", async ()
 });
 
 
-// ✅ Cerrar modal de vendedor
-document.getElementById("closeSellerModal")?.addEventListener("click", () => {
-    const sellerModal = document.getElementById("sellerProfileModal");
-    if (sellerModal) {
-        sellerModal.classList.add("hidden");
-        sellerModal.style.display = "none";
+document.addEventListener("DOMContentLoaded", () => {
+  // 👉 Abrir modal de PEDIDOS
+  const openOrdersBtn = document.getElementById("openOrdersModal");
+  const ordersModal = document.getElementById("ordersModal");
+  const closeOrdersBtn = document.getElementById("closeOrdersModal");
+
+  openOrdersBtn?.addEventListener("click", () => {
+    ordersModal?.classList.remove("hidden");
+    ordersModal.style.display = "flex";
+  });
+
+  closeOrdersBtn?.addEventListener("click", () => {
+    ordersModal?.classList.add("hidden");
+    ordersModal.style.display = "none";
+  });
+
+  ordersModal?.addEventListener("click", (e) => {
+    if (e.target.id === "ordersModal") {
+      ordersModal.classList.add("hidden");
+      ordersModal.style.display = "none";
+    }
+  });
+
+  // 👉 Abrir modal de INGRESOS
+  const openEarningsBtn = document.getElementById("openEarningsModal");
+  const earningsModal = document.getElementById("earningsModal");
+  const closeEarningsBtn = document.getElementById("closeEarningsModal");
+
+  openEarningsBtn?.addEventListener("click", () => {
+    earningsModal?.classList.remove("hidden");
+    earningsModal.style.display = "flex";
+  });
+
+  closeEarningsBtn?.addEventListener("click", () => {
+    earningsModal?.classList.add("hidden");
+    earningsModal.style.display = "none";
+  });
+
+  earningsModal?.addEventListener("click", (e) => {
+    if (e.target.id === "earningsModal") {
+      earningsModal.classList.add("hidden");
+      earningsModal.style.display = "none";
+    }
+  });
+
+  
+  
+  // 👉 Cerrar modal de vendedor
+  const closeSellerBtn = document.getElementById("closeSellerModal");
+  const sellerModal = document.getElementById("sellerProfileModal");
+
+  closeSellerBtn?.addEventListener("click", () => {                                                                                        sellerModal?.classList.add("hidden");
+    sellerModal.style.display = "none";                                                                                                  });
+
+  sellerModal?.addEventListener("click", (e) => {
+    if (e.target.id === "sellerProfileModal") {
+      sellerModal.classList.add("hidden");
+      sellerModal.style.display = "none";
+    }
+  });
+});
+
+
+
+window.openModalFromPost = function(uid) {
+  getDoc(doc(db, "usuarios", uid)).then(userSnap => {
+    if (!userSnap.exists()) return;
+
+    const userData = userSnap.data();
+
+    // 🔒 Cerrar modales por si acaso
+    document.getElementById("profileModal")?.classList.add("hidden");
+    document.getElementById("sellerProfileModal")?.classList.add("hidden");
+
+    // ✅ FORZAR siempre el modal normal, aunque sea vendedor
+    document.getElementById("modalProfileName").textContent = userData.name || "Usuario";
+    document.getElementById("modalProfileUsername").textContent = "@" + (userData.username || "usuario");
+    document.getElementById("modalProfileBio").textContent = userData.bio || "Sin biografía";
+    document.getElementById("profilePicModal").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/80";
+
+    const modal = document.getElementById("profileModal");
+    const modalContent = document.getElementById("modalContent");
+    const modalOverlay = document.getElementById("modalOverlay");
+
+    modal.classList.remove("hidden");
+    modal.style.display = "flex";
+
+    if (modalOverlay) {
+      modalOverlay.classList.remove("hidden");
+      modalOverlay.style.display = "block";
+    }
+
+    setTimeout(() => {
+      modalContent.classList.remove("scale-95", "opacity-0");
+      modalContent.classList.add("scale-100", "opacity-100");
+    }, 10);
+  }).catch(error => {
+    console.error("❌ Error al abrir modal desde publicación:", error);
+    alert("❌ No se pudo abrir el perfil.");
+  });
+};
+
+
+
+// Al hacer clic en el nombre del usuario
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("username-link")) {
+        const uid = e.target.dataset.uid;
+        if (uid) openModalFromPost(uid);
     }
 });
+
+// Al hacer clic en la imagen del perfil → vista previa grande
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("profile-pic-clickable")) {
+        const modal = document.getElementById("profilePicPreviewModal");
+        const img = document.getElementById("previewProfilePic");
+        img.src = e.target.dataset.img;
+        modal.classList.remove("hidden");
+    }
+});
+
+// Cerrar modal de imagen al hacer clic fuera del círculo
+document.getElementById("profilePicPreviewModal")?.addEventListener("click", (e) => {
+    if (e.target.id === "profilePicPreviewModal") {
+        e.currentTarget.classList.add("hidden");
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+// 🟢 PUBLICAR POST (guarda perfil en el post)
+document.getElementById("publishBtn")?.addEventListener("click", async () => {
+  const text = document.getElementById("postInput").value.trim();
+  const imageInput = document.getElementById("postImageInput");
+  const file = imageInput.files[0];
+
+  if (!text && !file) {
+    alert("⚠️ Escribe algo o sube una imagen o video.");
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    alert("⚠️ Debes estar logueado.");
+    return;
+  }
+
+  if (!userDataLoaded) {
+    alert("⚠️ Espera a que se cargue tu perfil correctamente antes de publicar.");
+    return;
+  }
+
+  let mediaURL = "";
+  let isVideo = false;
+
+  if (file) {
+    try {
+      const fileType = file.type;
+      isVideo = fileType.startsWith("video/");
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "Tweetsocial");
+
+      const uploadURL = isVideo
+        ? "https://api.cloudinary.com/v1_1/dz70korgo/video/upload"
+        : "https://api.cloudinary.com/v1_1/dz70korgo/image/upload";
+
+      const response = await fetch(uploadURL, {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!data.secure_url) {
+        alert("❌ Error al subir el archivo a Cloudinary.");
+        return;
+      }
+
+      mediaURL = data.secure_url;
+    } catch (error) {
+      console.error("❌ Error al subir archivo:", error);
+      alert("❌ Ocurrió un error al subir el archivo.");
+      return;
+    }
+  }
+
+  // 🔥 Leer perfil desde Firestore
+  let profileData = {};
+  try {
+    const userRef = doc(db, "usuarios", user.uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+      profileData = {
+        accountType: data.accountType || "",
+        bio: data.bio || "",
+        modalPhotoURL: data.modalPhotoURL || "",
+        name: data.name || "",
+        username: data.username || "",
+        photoURL: data.photoURL || "" // Asegura que se incluya la imagen de Google si no hay modalPhotoURL
+      };
+    }
+  } catch (e) {
+    console.warn("⚠️ No se pudo obtener perfil del usuario:", e);
+  }
+
+  // 🔥 Publicar en Firestore con perfil incluido
+  try {
+    await addDoc(collection(db, "posts"), {
+      uid: user.uid,
+      text: text,
+      mediaURL: mediaURL,
+      isVideo: isVideo,
+      timestamp: serverTimestamp(),
+      ...profileData // 👈 Aquí se agrega el perfil al post
+    });
+
+    document.getElementById("postInput").value = "";
+    imageInput.value = "";
+
+    alert("✅ Publicación realizada con éxito.");
+  } catch (err) {
+    console.error("❌ Error al guardar la publicación:", err);
+    alert("❌ Error al guardar la publicación en Firestore.");
+  }
+});
+
+
+
+
+// 👁️ ESCUCHAR PUBLICACIONES EN TIEMPO REAL (Versión final y sincronizada)
+function listenForPosts() {
+  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+
+  unsubscribePosts = onSnapshot(q, (snapshot) => {
+    const postsContainer = document.getElementById("postsContainer");
+    if (!postsContainer) return console.error("❌ No se encontró #postsContainer.");
+
+    const postHTMLArray = [];
+
+    snapshot.forEach((docSnap) => {
+      const postData = docSnap.data();
+      if (!postData?.uid) return;
+
+      // ✅ Ya viene todo desde el post (name, username, photoURL, etc.)
+      postHTMLArray.push(renderPostHTML(postData));
+    });
+
+    postsContainer.innerHTML = postHTMLArray.join("");
+  }, (error) => {
+    console.error("🔥 Error en snapshot de posts:", error);
+    const postsContainer = document.getElementById("postsContainer");
+    if (postsContainer) {
+      postsContainer.innerHTML = `<div class="text-center py-4 text-red-500">Error al cargar publicaciones.</div>`;
+    }
+  });
+}
+
+
+
+function renderPostHTML(docData, userData = {}) {
+  const safeUser = {
+    username: docData.username || userData.username || "usuario",
+    name: docData.name || userData.name || "Usuario",
+    photoURL: docData.modalPhotoURL || docData.photoURL || userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/40",
+    accountType: docData.accountType || userData.accountType || "usuario"
+  };
+
+  return `
+    <div class="bg-white p-5 rounded shadow-md mt-4">
+      <div class="flex items-center mb-2">
+        <img src="${safeUser.photoURL}"
+             class="w-10 h-10 rounded-full cursor-pointer profile-pic-clickable"
+             data-uid="${docData?.uid || userData?.uid || ''}"
+             data-account-type="${safeUser.accountType}"
+             alt="Foto de ${safeUser.name}"
+             onerror="this.src='https://via.placeholder.com/40'" />
+        <span class="ml-2 text-blue-600 cursor-pointer username-link"
+              data-uid="${docData?.uid || userData?.uid || ''}"
+              data-account-type="${safeUser.accountType}">
+          @${safeUser.username}
+        </span>
+      </div>
+      <p class="text-gray-700">${docData.text || ""}</p>
+      ${
+        docData.mediaURL
+          ? docData.isVideo
+            ? `<video controls class="mt-2 max-h-60 mx-auto rounded">
+                 <source src="${docData.mediaURL}" type="video/mp4">
+               </video>`
+            : `<div class="mt-2">
+                 <img src="${docData.mediaURL}"
+                      class="max-h-40 object-cover mx-auto rounded"
+                      alt="Contenido multimedia"
+                      onerror="this.style.display='none'" />
+               </div>`
+          : ""
+      }
+      <div class="flex mt-3 space-x-4">
+        <button class="text-gray-600">💬 Comentar</button>
+        <button class="text-red-500">❤️</button>
+        <button class="text-gray-600">🔗</button>
+      </div>
+    </div>
+  `;
+}
+
+
+
+
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("username-link")) return;
+
+  const uid = e.target.dataset.uid;
+  if (!uid) {
+    alert("❌ No se pudo identificar el UID del usuario.");
+    return;
+  }
+
+  console.log("🔍 Clic en username, buscando datos para UID:", uid);
+
+  try {
+    const userRef = doc(db, "usuarios", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      alert("❌ Usuario no encontrado en Firestore.");
+      return;
+    }
+
+    const userData = userSnap.data();
+    console.log("✅ Datos del usuario:", userData);
+
+    // 🔒 Cerrar ambos modales por si acaso
+    document.getElementById("profileModal")?.classList.add("hidden");
+    document.getElementById("sellerProfileModal")?.classList.add("hidden");
+
+    // 🔄 Mostrar siempre modal normal
+    document.getElementById("profilePicModal").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/80";
+    document.getElementById("modalProfileName").textContent = userData.name || "Usuario";
+    document.getElementById("modalProfileUsername").textContent = "@" + (userData.username || "usuario");
+    document.getElementById("modalProfileBio").textContent = userData.bio || "";
+
+    // 👉 Mostrar u ocultar botón "Editar perfil"
+    const editBtn = document.getElementById("openEditProfileFromModal");
+    if (auth.currentUser && auth.currentUser.uid === uid) {
+      editBtn.classList.remove("hidden");
+    } else {
+      editBtn.classList.add("hidden");
+    }
+
+    // 🔥 Mostrar modal
+    const modal = document.getElementById("profileModal");
+    const content = document.getElementById("modalContent");
+
+    modal.classList.remove("hidden");
+    modal.style.display = "flex";
+
+    setTimeout(() => {
+      content.classList.remove("scale-95", "opacity-0");
+      content.classList.add("scale-100", "opacity-100");
+    }, 10);
+
+  } catch (err) {
+    console.error("❌ Error al obtener perfil:", err);
+    alert("❌ No se pudo abrir el perfil.");
+  }
+});
+
+
+
+
+// 👇 Evento para abrir/cerrar el modal de la imagen de perfil
+document.addEventListener("DOMContentLoaded", () => {
+  const profileModal = document.getElementById("profilePicPreviewModal");
+  const profileImgPreview = document.getElementById("previewProfilePic");
+
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("profile-pic-clickable")) {
+      const src = e.target.getAttribute("src");
+      profileImgPreview.src = src;
+      profileModal.classList.remove("hidden");
+    }
+  });
+
+  profileModal.addEventListener("click", (e) => {
+    if (e.target === profileModal) {
+      profileModal.classList.add("hidden");
+      profileImgPreview.src = "";
+    }
+  });
+});
+
+
 
 
 
