@@ -82,65 +82,113 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
 
+
+/* Estilos para la transición del sidebar */
+        .sidebar-collapsed .sidebar-text {
+            opacity: 0;
+            width: 0;
+            margin-left: 0;
+            margin-right: 0;
+            position: absolute;
+        }
+        
+        .sidebar-collapsed .sidebar-icon {
+            font-size: 1.5rem;
+            margin: 0 auto;
+        }
+        
+        .sidebar-collapsed {
+            width: 5rem !important;
+        }
+        
+        .sidebar-collapsed .sidebar-content {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+        
+        .sidebar-collapsed #mainContent {
+            margin-left: 5rem;
+        }
+
 </style>
 </head>
 <body class="bg-gray-100">
     <div class="flex min-h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white p-5 shadow-md sticky top-0 h-screen overflow-y-auto">
-        <!-- Logo/Brand -->
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-blue-600">SocialApp</h1>
-        </div>
-
-        <!-- Contenedor de Login / Perfil -->
-        <div id="authContainer" class="mb-6">
-            <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg mb-4 transition duration-200">
-                Iniciar sesión
+        <!-- Sidebar deslizable mejorado -->
+        <aside id="sidebar" class="bg-white shadow-md sticky top-0 h-screen overflow-y-auto transition-all duration-300 ease-in-out w-64">
+            <!-- Botón para contraer/expandir -->
+            <button id="toggleSidebar" class="absolute -right-3 top-5 bg-white rounded-full shadow-md p-1 z-10 hover:bg-gray-100 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
             </button>
 
-            <!-- Contenedor del perfil (oculto por defecto) -->
-<div id="profileContainerSidebar" class="hidden flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition duration-200">
-    <img id="profilePicSidebar" src="https://via.placeholder.com/50" alt="Perfil" class="w-10 h-10 rounded-full object-cover">
-    <span id="usernameSidebar" class="font-medium">Usuario</span>
-</div>
+            <!-- Contenido del sidebar -->
+            <div class="p-5 sidebar-content">
+                <!-- Logo/Brand con transición -->
+                <div class="mb-8 flex items-center transition-all duration-300">
+                    <h1 class="text-2xl font-bold text-blue-600 whitespace-nowrap sidebar-text">SocialApp</h1>
+                </div>
 
-        <!-- Menú de navegación -->
-        <nav class="mb-6">
-            <ul class="space-y-2">
-                <li>
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
-                        <span class="mr-3">📦</span>
-                        <span>Pedidos disponibles</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
-                        <span class="mr-3">🔔</span>
-                        <span>Notificaciones</span>
-                        <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
-                        <span class="mr-3">💬</span>
-                        <span>Mensajes</span>
-                    </a>
-                </li>
-                <li>
-                    <button id="editProfileBtn" class="w-full flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
-                        <span class="mr-3">✏️</span>
-                        <span>Editar perfil</span>
+                <!-- Contenedor de Login / Perfil -->
+                <div id="authContainer" class="mb-6">
+                    <button id="loginBtn" class="w-full flex items-center justify-center overflow-hidden bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg mb-4 transition duration-200">
+                        <span class="sidebar-icon">👤</span>
+                        <span class="sidebar-text ml-2">Iniciar sesión</span>
                     </button>
-                </li>
-            </ul>
-        </nav>
 
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg mt-4 transition duration-200 shadow-md">
-            + Crear publicación
-        </button>
-    </aside>
+                    <!-- Contenedor del perfil -->
+                    <div id="profileContainerSidebar" class="hidden flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition">
+                        <img id="profilePicSidebar" src="https://via.placeholder.com/50" alt="Perfil" class="w-10 h-10 rounded-full object-cover">
+                        <span id="usernameSidebar" class="font-medium whitespace-nowrap sidebar-text ml-3">Usuario</span>
+                    </div>
+                </div>
 
+                <!-- Menú de navegación -->
+                <nav class="mb-6">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                                <span class="sidebar-icon">📦</span>
+                                <span class="sidebar-text ml-3">Pedidos</span>
+                                <span class="ml-auto bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full sidebar-text">5</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                                <span class="sidebar-icon">🔔</span>
+                                <span class="sidebar-text ml-3">NotifixD</span>
+                                <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                                <span class="sidebar-icon">💬</span>
+                                <span class="sidebar-text ml-3">Chats</span>
+                            </a>
+                        </li>
+                        <li>
+                            <button id="editProfileBtn" class="w-full flex items-center p-3 rounded-lg hover:bg-gray-100 transition duration-200">
+                                <span class="sidebar-icon">⚙️</span>
+                                <span class="sidebar-text ml-3">Editar</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Botones -->
+                <button id="crearPublicacionBtn" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg mt-4 transition duration-200 shadow-md">
+                    <span class="sidebar-icon">+</span>
+                    <span class="sidebar-text ml-2">Crear</span>
+                </button>
+                <button id="venderBtn" class="w-full flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-lg mt-2 transition duration-200 shadow-md">
+                    <span class="sidebar-icon">🛒</span>
+                    <span class="sidebar-text ml-2">Vender</span>
+                </button>
+            </div>
+        </aside>
+
+        
     <!-- Main Content -->
     <main class="flex-1 p-6 max-w-2xl mx-auto">
   <!-- Creador de publicaciones -->
@@ -169,63 +217,8 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
   <div id="postsContainer" class="space-y-4"></div>
 </main>
 
-    <!-- Trends Section -->
-    <aside class="w-80 p-5 bg-white shadow-md sticky top-0 h-screen overflow-y-auto hidden lg:block">
-        <div class="bg-gray-100 p-4 rounded-xl mb-6">
-            <h2 class="font-bold text-lg mb-3">📌 Pedidos recientes</h2>
-            <ul class="space-y-3">
-                <li>
-                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#1</span>
-                        <div>
-                            <h3 class="font-medium">Diseño de logo</h3>
-                            <p class="text-sm text-gray-600">5 ofertas recibidas</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#2</span>
-                        <div>
-                            <h3 class="font-medium">Desarrollo web</h3>
-                            <p class="text-sm text-gray-600">3 ofertas recibidas</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-start p-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                        <span class="bg-blue-100 text-blue-600 rounded-full p-2 mr-3">#3</span>
-                        <div>
-                            <h3 class="font-medium">Traducción</h3>
-                            <p class="text-sm text-gray-600">2 ofertas recibidas</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
 
-        <div class="bg-gray-100 p-4 rounded-xl">
-            <h2 class="font-bold text-lg mb-3">🔥 Tendencias</h2>
-            <ul class="space-y-2">
-                <li>
-                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
-                        #DiseñoGrafico
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
-                        #DesarrolloWeb
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="block p-2 text-blue-600 hover:bg-gray-200 rounded-lg transition duration-200">
-                        #Freelancer
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-</div>
+
 
 
     <!-- Modal de Login -->
@@ -318,20 +311,29 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
         <button id="openEditProfileFromModal" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
             Editar perfil
         </button>
+         
+         <button id="followBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition hidden">
+             Seguir
+         </button>
+
+
 
         <!-- Información del usuario -->
         <div class="flex justify-around text-gray-700 text-sm mt-3">
-            <span><b>1</b> Publicaciones</span>
-            <span><b>1</b> Siguiendo</span>
-            <span><b>100</b> Seguidores</span>
-        </div>
-
+            <span><b id="profilePostCount">0</b> Publicaciones</span>
+            <span><b id="profileFollowingCount">0</b> Siguiendo</span>
+            <span><b id="profileFollowersCount">0</b> Seguidores</span>
+         </div>
+         
         <!-- Timeline -->
         <h3 class="mt-4 font-bold text-gray-800">Timeline</h3>
         <div class="bg-gray-100 p-2 rounded mt-2 shadow-sm">Primer Publicación</div>
         <div class="bg-gray-100 p-2 rounded mt-2 shadow-sm">Segunda Publicación</div>
     </div>
 </div>
+
+
+
 
 
     <!-- MODAL PARA VENDEDORES -->
@@ -402,8 +404,109 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
 
+
+
+
+
+
+
+<!-- Modal de Mensajes Simple -->
+<div id="simpleMessagesModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden" style="display: none;">
+  <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-4 space-y-4">
+
+    <div class="flex justify-between items-center border-b pb-2">
+      <h2 class="text-lg font-bold">💬 Hablar con alguien</h2>
+      <button onclick="closeSimpleMessagesModal()" class="text-xl">&times;</button>
+    </div>
+
+    <!-- Lista de usuarios que sigues -->
+    <div id="simpleFollowingList" class="space-y-3 max-h-64 overflow-y-auto">
+      <!-- Aquí se cargan los usuarios seguidos -->
+    </div>
+
+    <!-- Chat básico -->
+    <div id="simpleChatBox" class="hidden space-y-2">
+      <div class="text-sm text-gray-700 font-medium" id="chatWithName">Hablando con:</div>
+      <div id="simpleChatMessages" class="h-40 overflow-y-auto bg-gray-50 rounded p-2 text-sm border"></div>
+
+      <div class="flex gap-2">
+        <input type="text" id="simpleMessageInput" class="flex-1 border rounded px-3 py-1 text-sm" placeholder="Escribe un mensaje...">
+        <button onclick="sendSimpleMessage()" class="bg-indigo-500 text-white px-4 py-1 rounded text-sm">Enviar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Botón para abrir el modal -->
+<button onclick="openSimpleMessagesModal()" class="fixed bottom-6 right-6 bg-indigo-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-indigo-600 transition">
+  💬 Mensajes
+</button>
+
+
+
+
+
+
+
+
+<!-- ✅ Modal para publicaciones de vendedor -->
+<div id="sellerPostModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white w-full max-w-md mx-auto mt-10 rounded-2xl p-6 shadow-lg relative flex flex-col">
+    <h2 class="text-xl font-semibold mb-4 text-center text-gray-800">🛍️ Publicar producto</h2>
+
+    <input
+      id="productTitle"
+      type="text"
+      placeholder="Título del producto"
+      class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+
+    <textarea
+      id="productDescription"
+      placeholder="Descripción del producto"
+      class="w-full border border-gray-300 rounded-lg p-2 mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+    ></textarea>
+
+    <input
+      id="productPrice"
+      type="number"
+      placeholder="Precio (ej: 199.99)"
+      class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+
+    <input
+      id="productImage"
+      type="file"
+      accept="image/*"
+      class="w-full mb-4"
+    />
+
+    <div class="flex justify-between items-center mt-2">
+      <button
+        onclick="closeSellerPostModal()"
+        class="text-sm text-gray-500 hover:text-gray-700 transition"
+      >
+        Cancelar
+      </button>
+
+      <button
+        onclick="publicarProducto()"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+      >
+        Publicar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
   import {
     getAuth,
     signInWithPopup,
@@ -417,12 +520,16 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     doc,
     setDoc,
     getDoc,
+    getDocs,           // ✅ Necesario para contar documentos (posts, seguidores, etc.)
     addDoc,
+    deleteDoc,         // ✅ Para dejar de seguir
     serverTimestamp,
     query,
+    where,             // ✅ Para filtrar por UID en posts
     orderBy,
     onSnapshot,
-    collection
+    collection,
+    updateDoc        // ✅ Añadido para actualizar documentos
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   // Aquí continúa el resto de tu script...
@@ -609,7 +716,7 @@ async function login() {
 
  
    
-    // 📌 Cargar perfil desde Firestore
+    // 📌 Cargar perfil desde Firestore y contar publicaciones/seguidores/seguidos
 async function loadUserProfile(uid) {
     try {
         const userRef = doc(db, "usuarios", uid);
@@ -643,10 +750,32 @@ async function loadUserProfile(uid) {
             console.log("🖼️ Imagen cargada en el modal:", profilePhoto);
         }
 
+        // ✅ CONTADORES 📊
+
+        // 🔢 Contar publicaciones
+        const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
+        const postsSnap = await getDocs(postsQuery);
+        const totalPosts = postsSnap.size;
+
+        // 🔢 Contar seguidores
+        const seguidoresSnap = await getDocs(collection(db, "usuarios", uid, "seguidores"));
+        const totalSeguidores = seguidoresSnap.size;
+
+        // 🔢 Contar seguidos (a quién sigue este usuario)
+        const siguiendoSnap = await getDocs(collection(db, "usuarios", uid, "seguidos"));
+        const totalSiguiendo = siguiendoSnap.size;
+
+        // 🎯 Mostrar en HTML
+        document.getElementById("profilePostCount").textContent = totalPosts;
+        document.getElementById("profileFollowersCount").textContent = totalSeguidores;
+        document.getElementById("profileFollowingCount").textContent = totalSiguiendo;
+
     } catch (error) {
         console.error("❌ Error al cargar perfil:", error);
     }
 }
+
+
 
 
 // 📌 Actualiza tu función updateUI así para evitar conflictos y pérdida de imagen:
@@ -702,13 +831,57 @@ async function syncAccountTypeUI(user) {
 
     // Actualizar foto y datos en el modal que esté visible
     if (accountType === "seller") {
-        document.getElementById("sellerName").textContent = userData.name || "Vendedor";
-        document.getElementById("sellerUsername").textContent = "@" + (userData.username || "usuario");
-        document.getElementById("sellerBio").textContent = userData.bio || "Sin biografía";
-        const sellerPic = userData.modalPhotoURL || userData.photoURL || user.photoURL || "https://via.placeholder.com/100";
-        document.getElementById("sellerProfilePic").src = sellerPic;
+    document.getElementById("sellerName").textContent = userData.name || "Vendedor";
+    document.getElementById("sellerUsername").textContent = "@" + (userData.username || "usuario");
+    document.getElementById("sellerBio").textContent = userData.bio || "Sin biografía";
+    const sellerPic = userData.modalPhotoURL || userData.photoURL || user.photoURL || "https://via.placeholder.com/100";
+    document.getElementById("sellerProfilePic").src = sellerPic;
+
+        // ✅ Contadores del vendedor
+    await loadSellerProfile(user.uid);
+  }
+} // <-- CIERRA BIEN LA FUNCIÓN AQUÍ
+
+
+
+
+async function loadSellerProfile(uid) {
+  try {
+    const userRef = doc(db, "usuarios", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      console.warn("⚠️ Vendedor no encontrado:", uid);
+      return;
     }
+
+    const userData = userSnap.data();
+
+    // 👤 Datos del vendedor
+    document.getElementById("sellerName").textContent = userData.name || "Vendedor";
+    document.getElementById("sellerUsername").textContent = "@" + (userData.username || "usuario");
+    document.getElementById("sellerBio").textContent = userData.bio || "Sin biografía";
+    document.getElementById("sellerProfilePic").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/100";
+
+    // 📊 Publicaciones
+    const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
+    const postsSnap = await getDocs(postsQuery);
+    document.getElementById("sellerTweets").textContent = postsSnap.size;
+
+    // 📊 Seguidores
+    const seguidoresSnap = await getDocs(collection(db, "usuarios", uid, "seguidores"));
+    document.getElementById("sellerFollowers").textContent = seguidoresSnap.size;
+
+    // 📊 Siguiendo
+    const siguiendoSnap = await getDocs(collection(db, "usuarios", uid, "seguidos"));
+    document.getElementById("sellerFollowing").textContent = siguiendoSnap.size;
+
+  } catch (error) {
+    console.error("❌ Error al cargar datos del perfil de vendedor:", error);
+  }
 }
+
+
 
 
 
@@ -719,6 +892,7 @@ async function syncAccountTypeUI(user) {
 
 let unsubscribePosts = null;
 let userDataLoaded = false;
+let currentAccountType = "usuario"; // declaración global
 
 onAuthStateChanged(auth, async (user) => {
   console.log("🔄 Detectando cambios en la sesión...", user);
@@ -734,6 +908,7 @@ onAuthStateChanged(auth, async (user) => {
   const publishBtn = document.getElementById("publishBtn");
 
   if (user) {
+
     console.log("✅ Sesión detectada: ", user.uid);
 
     let mainPhoto = user.photoURL || "https://via.placeholder.com/40";
@@ -742,6 +917,8 @@ onAuthStateChanged(auth, async (user) => {
       const userRef = doc(db, "usuarios", user.uid);
       const userSnap = await getDoc(userRef);
       let userData = userSnap.exists() ? userSnap.data() : null;
+
+      currentAccountType = userData.accountType || "usuario"; // 👈 aquí mismo
 
       if (!userData) {
         console.log("🆕 Usuario no existía, creando perfil con UID...");
@@ -762,6 +939,9 @@ onAuthStateChanged(auth, async (user) => {
         await new Promise(res => setTimeout(res, 300));
       }
 
+      currentAccountType = userData.accountType || "usuario";
+
+      
       mainPhoto = userData.modalPhotoURL || userData.photoURL || mainPhoto;
 
       if (profilePicModal) profilePicModal.src = mainPhoto;
@@ -776,28 +956,23 @@ onAuthStateChanged(auth, async (user) => {
       if (profileContainer) profileContainer.style.display = "block";
       if (profileContainerSidebar) profileContainerSidebar.classList.remove("hidden");
 
-      // 👉 Abrir tu propio perfil desde el sidebar
       profileContainerSidebar.addEventListener("click", () => {
         const isSeller = userData.accountType === "vendedor";
 
-        // Cerrar ambos modales primero
         document.getElementById("profileModal").classList.add("hidden");
         document.getElementById("sellerProfileModal").classList.add("hidden");
 
         if (isSeller) {
-          // 🧼 Limpiar contenido del modal vendedor antes de reutilizar
           document.getElementById("sellerProfilePic").src = "https://via.placeholder.com/100";
           document.getElementById("sellerName").textContent = "";
           document.getElementById("sellerUsername").textContent = "";
           document.getElementById("sellerBio").textContent = "";
 
-          // 👤 Insertar tus datos
           document.getElementById("sellerProfilePic").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/100";
           document.getElementById("sellerName").textContent = userData.name || "Vendedor";
           document.getElementById("sellerUsername").textContent = "@" + (userData.username || "usuario");
           document.getElementById("sellerBio").textContent = userData.bio || "";
 
-          // 🟢 Mostrar modal vendedor
           document.getElementById("sellerProfileModal").classList.remove("hidden");
         } else {
           document.getElementById("modalProfileName").textContent = userData.name || "Usuario";
@@ -841,6 +1016,11 @@ onAuthStateChanged(auth, async (user) => {
     userDataLoaded = false;
   }
 });
+
+
+
+
+
 
 
 
@@ -978,26 +1158,159 @@ document.getElementById("saveProfileBtn")?.addEventListener("click", async () =>
 });
 
 
-// Define estas funciones fuera del DOMContentLoaded para que sean globales
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function loadFollowingInMessages() {
+  const currentUser = auth.currentUser;
+  const followingListContainer = document.getElementById("followingList");
+
+  if (!currentUser || !followingListContainer) return;
+
+  try {
+    const seguidosRef = collection(db, "usuarios", currentUser.uid, "seguidos");
+    const snapshot = await getDocs(seguidosRef);
+
+    followingListContainer.innerHTML = "";
+
+    if (snapshot.empty) {
+      followingListContainer.innerHTML = `<p class="text-sm text-gray-500">No sigues a nadie aún.</p>`;
+      return;
+    }
+
+    for (const docSnap of snapshot.docs) {
+      const seguidoUID = docSnap.id;
+      const seguidoRef = doc(db, "usuarios", seguidoUID);
+      const seguidoSnap = await getDoc(seguidoRef);
+
+      if (seguidoSnap.exists()) {
+        const data = seguidoSnap.data();
+        const name = data.name || "Sin nombre";
+        const photo = data.modalPhotoURL || data.photoURL || "https://via.placeholder.com/80";
+
+        const userDiv = document.createElement("div");
+        userDiv.className = "flex flex-col items-center cursor-pointer";
+        userDiv.innerHTML = `
+          <img src="${photo}" class="w-12 h-12 rounded-full border-2 border-green-400" alt="${name}">
+          <span class="text-xs font-medium mt-1">${name}</span>
+        `;
+
+        // ✅ Reemplazamos el console.log por apertura de chat
+        userDiv.addEventListener("click", () => {
+          openChatWithUser(seguidoUID);
+        });
+
+        followingListContainer.appendChild(userDiv);
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error al cargar usuarios seguidos:", error);
+    followingListContainer.innerHTML = `<p class="text-sm text-red-500">Error al cargar usuarios.</p>`;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ✅ FUNCIÓN PARA CARGAR CONTADORES EN MODAL DE VENDEDOR
+async function loadSellerCounts(uid) {
+  try {
+    const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
+    const postsSnap = await getDocs(postsQuery);
+    document.getElementById("sellerTweets").textContent = postsSnap.size;
+
+    const seguidoresSnap = await getDocs(collection(db, "usuarios", uid, "seguidores"));
+    document.getElementById("sellerFollowers").textContent = seguidoresSnap.size;
+
+    const siguiendoSnap = await getDocs(collection(db, "usuarios", uid, "seguidos"));
+    document.getElementById("sellerFollowing").textContent = siguiendoSnap.size;
+
+    console.log("📊 Contadores de vendedor cargados:", uid);
+  } catch (error) {
+    console.error("❌ Error al cargar contadores de vendedor:", error);
+  }
+}
+
+
+
+
+
+
+
+// ✅ Función global para contar publicaciones, seguidores y seguidos
+async function loadProfileCounts(uid) {
+  try {
+    // 📊 Contar publicaciones
+    const postsQuery = query(collection(db, "posts"), where("uid", "==", uid));
+    const postsSnap = await getDocs(postsQuery);
+    document.getElementById("profilePostCount").textContent = postsSnap.size;
+
+    // 📊 Contar seguidores
+    const seguidoresSnap = await getDocs(collection(db, "usuarios", uid, "seguidores"));
+    document.getElementById("profileFollowersCount").textContent = seguidoresSnap.size;
+
+    // 📊 Contar seguidos
+    const siguiendoSnap = await getDocs(collection(db, "usuarios", uid, "seguidos"));
+    document.getElementById("profileFollowingCount").textContent = siguiendoSnap.size;
+
+    console.log("📊 Contadores cargados correctamente para:", uid);
+  } catch (error) {
+    console.error("❌ Error al contar publicaciones o seguidores:", error);
+  }
+}
+
+
+
+// ✅ Funciones globales
+
 function openModal() {
     const user = auth.currentUser;
     if (!user) return;
 
     const userRef = doc(db, "usuarios", user.uid);
-    getDoc(userRef).then((userSnap) => {
+    getDoc(userRef).then(async (userSnap) => {
         if (userSnap.exists()) {
             const userData = userSnap.data();
             const accountType = userData.accountType || "google";
 
             if (accountType === "seller") {
-                // Mostrar modal de vendedor
                 const sellerModal = document.getElementById("sellerProfileModal");
                 if (sellerModal) {
                     sellerModal.classList.remove("hidden");
                     sellerModal.style.display = "flex";
                 }
             } else {
-                // Mostrar modal clásico
                 const profileModal = document.getElementById("profileModal");
                 const modalOverlay = document.getElementById("modalOverlay");
                 const modalContent = document.getElementById("modalContent");
@@ -1023,8 +1336,25 @@ function openModal() {
                     profilePicModal.src = user.photoURL || "https://via.placeholder.com/80";
                 }
 
-                loadUserProfile(user.uid);
-            }
+                const editBtn = document.getElementById("openEditProfileFromModal");
+                const followBtn = document.getElementById("followBtn");
+                if (editBtn) editBtn.classList.remove("hidden");
+                if (followBtn) followBtn.classList.add("hidden");
+
+               // ✅ Cargar datos del perfil
+               await loadUserProfile(user.uid);
+
+               // ✅ Cargar contadores: publicaciones, seguidores, seguidos
+                await loadProfileCounts(user.uid);
+
+
+               // ✅ Mostrar solo tus publicaciones dentro del modal
+               loadUserPosts(user.uid);
+
+
+
+             }
+
         }
     }).catch((error) => {
         console.error("❌ Error al verificar tipo de cuenta:", error);
@@ -1053,6 +1383,7 @@ function closeModal() {
 }
 
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const profileContainerSidebar = document.getElementById("profileContainerSidebar");
     const closeProfileModal = document.getElementById("closeProfileModal");
@@ -1072,8 +1403,16 @@ document.addEventListener("DOMContentLoaded", function () {
             closeModal();
         }
     });
-    // ... el resto del código dentro de DOMContentLoaded
 });
+
+
+
+
+
+
+
+
+
 
 
 document.getElementById("openEditProfileFromModal").addEventListener("click", function () {
@@ -1191,6 +1530,10 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
 
 
 
+
+
+
+
 document.getElementById("switchToSellerBtn")?.addEventListener("click", async () => {
     const user = auth.currentUser;
     if (!user) {
@@ -1245,6 +1588,11 @@ document.getElementById("switchToSellerBtn")?.addEventListener("click", async ()
                 if (sellerModal) {
                     sellerModal.classList.remove("hidden");
                     sellerModal.style.display = "flex";
+
+
+                    // ✅ Cargar contadores para el modal de vendedor
+                    await loadSellerCounts(user.uid);
+
                 }
             }
         }
@@ -1258,8 +1606,8 @@ document.getElementById("switchToSellerBtn")?.addEventListener("click", async ()
 
 document.addEventListener("DOMContentLoaded", () => {
   // 👉 Abrir modal de PEDIDOS
-  const openOrdersBtn = document.getElementById("openOrdersModal");
-  const ordersModal = document.getElementById("ordersModal");
+  const openOrdersBtn  = document.getElementById("openOrdersModal");
+  const ordersModal    = document.getElementById("ordersModal");
   const closeOrdersBtn = document.getElementById("closeOrdersModal");
 
   openOrdersBtn?.addEventListener("click", () => {
@@ -1280,8 +1628,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 👉 Abrir modal de INGRESOS
-  const openEarningsBtn = document.getElementById("openEarningsModal");
-  const earningsModal = document.getElementById("earningsModal");
+  const openEarningsBtn  = document.getElementById("openEarningsModal");
+  const earningsModal    = document.getElementById("earningsModal");
   const closeEarningsBtn = document.getElementById("closeEarningsModal");
 
   openEarningsBtn?.addEventListener("click", () => {
@@ -1301,14 +1649,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  
-  
   // 👉 Cerrar modal de vendedor
   const closeSellerBtn = document.getElementById("closeSellerModal");
-  const sellerModal = document.getElementById("sellerProfileModal");
+  const sellerModal    = document.getElementById("sellerProfileModal");
 
-  closeSellerBtn?.addEventListener("click", () => {                                                                                        sellerModal?.classList.add("hidden");
-    sellerModal.style.display = "none";                                                                                                  });
+  closeSellerBtn?.addEventListener("click", () => {
+    sellerModal?.classList.add("hidden");
+    sellerModal.style.display = "none";
+  });
 
   sellerModal?.addEventListener("click", (e) => {
     if (e.target.id === "sellerProfileModal") {
@@ -1320,11 +1668,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
+
 window.openModalFromPost = function(uid) {
   getDoc(doc(db, "usuarios", uid)).then(userSnap => {
     if (!userSnap.exists()) return;
 
     const userData = userSnap.data();
+    const currentUser = auth.currentUser;
 
     // 🔒 Cerrar modales por si acaso
     document.getElementById("profileModal")?.classList.add("hidden");
@@ -1335,6 +1688,19 @@ window.openModalFromPost = function(uid) {
     document.getElementById("modalProfileUsername").textContent = "@" + (userData.username || "usuario");
     document.getElementById("modalProfileBio").textContent = userData.bio || "Sin biografía";
     document.getElementById("profilePicModal").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/80";
+
+    // ✅ Mostrar el botón correcto según si es el perfil actual o no
+    const editBtn = document.getElementById("openEditProfileFromModal");
+    const followBtn = document.getElementById("followBtn");
+
+    if (currentUser && currentUser.uid === uid) {
+      editBtn.classList.remove("hidden");
+      followBtn.classList.add("hidden");
+    } else {
+      editBtn.classList.add("hidden");
+      followBtn.classList.remove("hidden");
+      followBtn.textContent = "Seguir";
+    }
 
     const modal = document.getElementById("profileModal");
     const modalContent = document.getElementById("modalContent");
@@ -1352,11 +1718,16 @@ window.openModalFromPost = function(uid) {
       modalContent.classList.remove("scale-95", "opacity-0");
       modalContent.classList.add("scale-100", "opacity-100");
     }, 10);
+
+    // ✅ Cargar contadores
+    loadUserProfile(uid);
+
   }).catch(error => {
     console.error("❌ Error al abrir modal desde publicación:", error);
     alert("❌ No se pudo abrir el perfil.");
   });
 };
+
 
 
 
@@ -1384,10 +1755,6 @@ document.getElementById("profilePicPreviewModal")?.addEventListener("click", (e)
         e.currentTarget.classList.add("hidden");
     }
 });
-
-
-
-
 
 
 
@@ -1527,6 +1894,7 @@ function listenForPosts() {
 
 
 
+
 function renderPostHTML(docData, userData = {}) {
   const safeUser = {
     username: docData.username || userData.username || "usuario",
@@ -1535,17 +1903,53 @@ function renderPostHTML(docData, userData = {}) {
     accountType: docData.accountType || userData.accountType || "usuario"
   };
 
+  const uid = docData?.uid || userData?.uid || "";
+
+  // 📦 Si es tipo "venta"
+  if (docData.tipo === "venta") {
+    return `
+      <div class="bg-yellow-100 p-5 rounded shadow-md mt-4 border border-yellow-300">
+        <div class="flex items-center mb-2">
+          <img src="${safeUser.photoURL}"
+               class="w-10 h-10 rounded-full cursor-pointer profile-pic-clickable"
+               data-uid="${uid}"
+               data-account-type="${safeUser.accountType}"
+               alt="Foto de ${safeUser.name}"
+               onerror="this.src='https://via.placeholder.com/40'" />
+          <span class="ml-2 text-blue-600 cursor-pointer username-link"
+                data-uid="${uid}"
+                data-account-type="${safeUser.accountType}">
+            @${safeUser.username}
+          </span>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">${docData.titulo || "Producto sin título"}</h3>
+        <p class="text-gray-700 mb-1">${docData.descripcion || ""}</p>
+        <p class="text-green-700 font-bold mb-2">💲${docData.precio || 0}</p>
+        ${
+          docData.imagen
+            ? `<img src="${docData.imagen}" class="w-full max-h-60 object-cover rounded mb-3" alt="Producto">`
+            : ""
+        }
+        <div class="flex mt-2 space-x-4 text-sm text-gray-600">
+          <button class="hover:text-blue-600">💬 Comentar</button>
+          <button class="hover:text-red-500">❤️</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // ✍️ Post normal
   return `
     <div class="bg-white p-5 rounded shadow-md mt-4">
       <div class="flex items-center mb-2">
         <img src="${safeUser.photoURL}"
              class="w-10 h-10 rounded-full cursor-pointer profile-pic-clickable"
-             data-uid="${docData?.uid || userData?.uid || ''}"
+             data-uid="${uid}"
              data-account-type="${safeUser.accountType}"
              alt="Foto de ${safeUser.name}"
              onerror="this.src='https://via.placeholder.com/40'" />
         <span class="ml-2 text-blue-600 cursor-pointer username-link"
-              data-uid="${docData?.uid || userData?.uid || ''}"
+              data-uid="${uid}"
               data-account-type="${safeUser.accountType}">
           @${safeUser.username}
         </span>
@@ -1577,6 +1981,10 @@ function renderPostHTML(docData, userData = {}) {
 
 
 
+
+
+
+
 document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("username-link")) return;
 
@@ -1600,22 +2008,44 @@ document.addEventListener("click", async (e) => {
     const userData = userSnap.data();
     console.log("✅ Datos del usuario:", userData);
 
-    // 🔒 Cerrar ambos modales por si acaso
+    // 🔒 Cerrar modales por si acaso
     document.getElementById("profileModal")?.classList.add("hidden");
     document.getElementById("sellerProfileModal")?.classList.add("hidden");
 
-    // 🔄 Mostrar siempre modal normal
+    // 🔄 Mostrar SIEMPRE modal normal
     document.getElementById("profilePicModal").src = userData.modalPhotoURL || userData.photoURL || "https://via.placeholder.com/80";
     document.getElementById("modalProfileName").textContent = userData.name || "Usuario";
     document.getElementById("modalProfileUsername").textContent = "@" + (userData.username || "usuario");
     document.getElementById("modalProfileBio").textContent = userData.bio || "";
 
-    // 👉 Mostrar u ocultar botón "Editar perfil"
     const editBtn = document.getElementById("openEditProfileFromModal");
-    if (auth.currentUser && auth.currentUser.uid === uid) {
-      editBtn.classList.remove("hidden");
+    const followBtn = document.getElementById("followBtn");
+
+    const currentUser = auth.currentUser;
+    const isOwnProfile = currentUser && currentUser.uid === uid;
+
+    if (isOwnProfile) {
+      editBtn?.classList.remove("hidden");
+      followBtn?.classList.add("hidden");
     } else {
-      editBtn.classList.add("hidden");
+      editBtn?.classList.add("hidden");
+      followBtn?.classList.remove("hidden");
+
+      followBtn.dataset.uid = uid; // Guardamos el UID en el botón
+
+      // 🔍 Verificar si YA lo sigue
+      const followRef = doc(db, "usuarios", uid, "seguidores", currentUser.uid);
+      const followSnap = await getDoc(followRef);
+
+      if (followSnap.exists()) {
+        followBtn.textContent = "Siguiendo";
+        followBtn.classList.remove("bg-blue-500");
+        followBtn.classList.add("bg-green-500");
+      } else {
+        followBtn.textContent = "Seguir";
+        followBtn.classList.remove("bg-green-500");
+        followBtn.classList.add("bg-blue-500");
+      }
     }
 
     // 🔥 Mostrar modal
@@ -1632,9 +2062,63 @@ document.addEventListener("click", async (e) => {
 
   } catch (err) {
     console.error("❌ Error al obtener perfil:", err);
-    alert("❌ No se pudo abrir el perfil.");
+    alert("❌ No se pudo abrir el perfil.\n\n" + err.message);
   }
 });
+
+
+
+
+// ✅ Botón seguir real que guarda en Firestore y actualiza contadores
+document.getElementById("followBtn")?.addEventListener("click", async function () {
+  const followBtn = this;
+  const viewedUID = followBtn.dataset.uid;
+  const currentUser = auth.currentUser;
+
+  if (!viewedUID || !currentUser) {
+    alert("❌ No se pudo procesar el seguimiento.");
+    return;
+  }
+
+  const followerRef = doc(db, "usuarios", viewedUID, "seguidores", currentUser.uid);
+  const followingRef = doc(db, "usuarios", currentUser.uid, "seguidos", viewedUID);
+
+  try {
+    const docSnap = await getDoc(followerRef);
+
+    if (docSnap.exists()) {
+      // 👉 Ya lo sigue → dejar de seguir
+      await deleteDoc(followerRef);
+      await deleteDoc(followingRef);
+
+      followBtn.textContent = "Seguir";
+      followBtn.classList.remove("bg-green-500");
+      followBtn.classList.add("bg-blue-500");
+    } else {
+      // 👉 No lo sigue → empezar a seguir
+      await setDoc(followerRef, {
+        seguidorUID: currentUser.uid,
+        followedAt: Date.now()
+      });
+      await setDoc(followingRef, {
+        seguidoUID: viewedUID,
+        followedAt: Date.now()
+      });
+
+      followBtn.textContent = "Siguiendo";
+      followBtn.classList.remove("bg-blue-500");
+      followBtn.classList.add("bg-green-500");
+    }
+
+    // ✅ Actualizar contadores en tiempo real
+    await loadProfileCounts(viewedUID);
+
+  } catch (error) {
+    console.error("❌ Error al seguir/dejar de seguir:", error);
+    alert("❌ Hubo un error al actualizar el seguimiento.\n\n" + error.message);
+  }
+});
+
 
 
 
@@ -1662,6 +2146,378 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
+
+let activeSimpleChatUid = null;
+let activeReceiverUid = null;
+let unsubscribeSimpleChat = null; // 🧠 Muy importante
+
+window.openSimpleMessagesModal = function () {
+  const modal = document.getElementById("simpleMessagesModal");
+  modal.classList.remove("hidden");
+  modal.style.display = "flex";
+
+  document.getElementById("simpleChatBox").classList.add("hidden");
+  document.getElementById("simpleChatMessages").innerHTML = "";
+  document.getElementById("simpleMessageInput").value = "";
+
+  document.body.classList.add("overflow-hidden");
+
+  loadSimpleFollowingList();
+};
+
+window.closeSimpleMessagesModal = function () {
+  const modal = document.getElementById("simpleMessagesModal");
+  modal.classList.add("hidden");
+  modal.style.display = "none";
+
+  document.getElementById("simpleChatBox").classList.add("hidden");
+  document.getElementById("simpleChatMessages").innerHTML = "";
+  document.getElementById("simpleMessageInput").value = "";
+
+  if (typeof unsubscribeSimpleChat === "function") {
+    unsubscribeSimpleChat();
+    unsubscribeSimpleChat = null;
+  }
+
+  activeSimpleChatUid = null;
+  activeReceiverUid = null;
+
+  document.body.classList.remove("overflow-hidden");
+};
+
+async function loadSimpleFollowingList() {
+  const user = auth.currentUser;
+  const container = document.getElementById("simpleFollowingList");
+  container.innerHTML = "";
+
+  const seguidosSnap = await getDocs(collection(db, "usuarios", user.uid, "seguidos"));
+  for (const docSnap of seguidosSnap.docs) {
+    const followedUid = docSnap.id;
+    const userSnap = await getDoc(doc(db, "usuarios", followedUid));
+    if (!userSnap.exists()) continue;
+
+    const userData = userSnap.data();
+
+    const item = document.createElement("div");
+    item.className = "flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded";
+    item.innerHTML = `
+      <img src="${userData.modalPhotoURL || userData.photoURL || 'https://via.placeholder.com/40'}" class="w-10 h-10 rounded-full border" />
+      <div>
+        <div class="font-medium text-sm">${userData.name || "Usuario"}</div>
+        <div class="text-xs text-gray-500">@${userData.username || "usuario"}</div>
+      </div>
+    `;
+    item.onclick = () => openSimpleChatWithUser(followedUid, userData.name);
+    container.appendChild(item);
+  }
+}
+
+function openSimpleChatWithUser(otherUid, otherName) {
+  const currentUid = auth.currentUser.uid;
+  activeReceiverUid = otherUid;
+  activeSimpleChatUid = [currentUid, otherUid].sort().join("_");
+
+  document.getElementById("simpleChatBox").classList.remove("hidden");
+  document.getElementById("chatWithName").textContent = "Hablando con: " + otherName;
+
+  const messagesRef = collection(db, "chats", activeSimpleChatUid, "messages");
+  const q = query(messagesRef, orderBy("timestamp"));
+  const container = document.getElementById("simpleChatMessages");
+  container.innerHTML = "";
+
+  if (typeof unsubscribeSimpleChat === "function") {
+    unsubscribeSimpleChat();
+  }
+
+  unsubscribeSimpleChat = onSnapshot(q, (snapshot) => {
+    container.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const msg = doc.data();
+      const isMine = msg.senderId === currentUid;
+
+      const messageWrapper = document.createElement("div");
+      messageWrapper.className = `flex mb-2 items-end ${isMine ? "justify-end" : "justify-start"}`;
+
+      const bubbleWrapper = document.createElement("div");
+      bubbleWrapper.className = "flex flex-col max-w-[70%]";
+
+      const bubble = document.createElement("div");
+      bubble.className = `px-4 py-2 rounded-xl text-sm shadow relative ${
+        isMine
+          ? "bg-blue-500 text-white rounded-br-none self-end"
+          : "bg-gray-100 text-gray-900 rounded-bl-none self-start"
+      }`;
+      bubble.textContent = msg.text;
+
+      // 🔒 Prevenir selección de texto y menú del sistema
+      bubble.setAttribute("unselectable", "on");
+      bubble.style.userSelect = "none";
+      bubble.style.webkitUserSelect = "none";
+      bubble.style.msUserSelect = "none";
+
+      // ⏰ Hora del mensaje
+      const time = document.createElement("div");
+      const date = msg.timestamp?.toDate();
+      time.textContent = date
+        ? date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        : "";
+      time.className = `text-xs mt-1 ${
+        isMine ? "text-right text-white/70" : "text-left text-gray-500"
+      }`;
+
+      // 💬 Contenedor para reacciones
+      const reactionBar = document.createElement("div");
+      if (msg.reactions && Object.keys(msg.reactions).length > 0) {
+        const uniqueEmojis = [...new Set(Object.values(msg.reactions))];
+        reactionBar.textContent = uniqueEmojis.join(" ");
+        reactionBar.className = `text-sm mt-1 ${
+          isMine ? "text-right text-white/80" : "text-left text-gray-600"
+        }`;
+      } else {
+        reactionBar.textContent = "";
+        reactionBar.className = "min-h-[1.5em]"; // mantener espacio aunque no haya reacción
+      }
+
+      // 💥 Soporte para touch y mouse
+      let pressTimer;
+
+      // 🖱️ Desktop
+      bubble.addEventListener("mousedown", (e) => {
+        if (e.target !== bubble) return;
+        pressTimer = setTimeout(() => showReactionMenu(msg, doc.id, reactionBar, e), 500);
+      });
+      bubble.addEventListener("mouseup", () => clearTimeout(pressTimer));
+      bubble.addEventListener("mouseleave", () => clearTimeout(pressTimer));
+      bubble.addEventListener("dblclick", (e) => {
+        if (e.target !== bubble) return;
+        showReactionMenu(msg, doc.id, reactionBar, e);
+      });
+
+      // 📱 Móvil
+      bubble.addEventListener("touchstart", (e) => {
+        if (e.target !== bubble) return;
+        e.preventDefault();
+        pressTimer = setTimeout(
+          () => showReactionMenu(msg, doc.id, reactionBar, e.touches[0]),
+          500
+        );
+      });
+      bubble.addEventListener("touchend", () => clearTimeout(pressTimer));
+      bubble.addEventListener("touchcancel", () => clearTimeout(pressTimer));
+
+      // 🧩 Orden correcto
+      bubbleWrapper.appendChild(bubble);         // 💬 Mensaje
+      bubbleWrapper.appendChild(reactionBar);    // 😄 Reacción debajo del mensaje
+      bubbleWrapper.appendChild(time);           // 🕒 Hora
+
+      if (isMine) {
+        messageWrapper.appendChild(bubbleWrapper);
+      } else {
+        const avatar = document.createElement("img");
+        avatar.src = msg.senderPhoto || "https://via.placeholder.com/32";
+        avatar.className = "w-6 h-6 rounded-full mr-2 border";
+        messageWrapper.appendChild(avatar);
+        messageWrapper.appendChild(bubbleWrapper);
+      }
+
+      container.appendChild(messageWrapper);
+    });
+
+    container.scrollTop = container.scrollHeight;
+  });
+}
+
+
+
+
+
+
+
+
+
+window.sendSimpleMessage = async function () {
+  const input = document.getElementById("simpleMessageInput");
+  const text = input.value.trim();
+
+  // Verificación más detallada
+  if (!text) {
+    console.log("No hay texto para enviar");
+    return;
+  }
+
+  if (!activeSimpleChatUid || !activeReceiverUid) {
+    console.error("Faltan UIDs activos:", {
+      activeSimpleChatUid,
+      activeReceiverUid
+    });
+    return;
+  }
+
+  const currentUid = auth.currentUser.uid;
+  console.log("Intentando enviar mensaje:", {
+    text,
+    activeSimpleChatUid,
+    activeReceiverUid,
+    currentUid
+  });
+
+  try {
+    const chatRef = doc(db, "chats", activeSimpleChatUid);
+    const messageRef = collection(chatRef, "messages");
+
+    // Actualización del chat
+    await setDoc(chatRef, {
+      users: [currentUid, activeReceiverUid],
+      lastMessage: text,
+      lastUpdated: serverTimestamp()
+    }, { merge: true });
+
+    // Añadir el mensaje
+    await addDoc(messageRef, {
+      text,
+      senderId: currentUid,
+      senderPhoto: auth.currentUser.photoURL || null,
+      timestamp: serverTimestamp(),
+      reactions: {} // Campo inicializado para reacciones
+    });
+
+    input.value = "";
+    console.log("Mensaje enviado con éxito");
+  } catch (error) {
+    console.error("Error al enviar mensaje:", error);
+  }
+};
+
+
+
+
+
+
+
+window.showReactionMenu = async function (msg, messageId, container, event) {
+  // Validación básica
+  if (!activeSimpleChatUid || !auth.currentUser?.uid) return;
+
+  // Limpiar menús anteriores
+  document.querySelectorAll('.emoji-menu').forEach(el => el.remove());
+
+  // Crear menú
+  const menu = document.createElement("div");
+  menu.className = "emoji-menu";
+  Object.assign(menu.style, {
+    position: "fixed",
+    zIndex: 10000,
+    background: "white",
+    padding: "8px",
+    borderRadius: "12px",
+    display: "flex",
+    gap: "4px"
+  });
+
+  // Posicionamiento
+  const x = event.clientX || event.touches?.[0]?.clientX;
+  const y = event.clientY || event.touches?.[0]?.clientY;
+  menu.style.left = `${Math.max(10, x - 120)}px`;
+  menu.style.top = `${Math.max(10, y - 60)}px`;
+
+  // Añadir emojis
+  ["❤️", "😂", "👍", "🔥", "😮", "😢"].forEach(emoji => {
+    const btn = document.createElement("button");
+    btn.textContent = emoji;
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      try {
+        await updateDoc(doc(db, "chats", activeSimpleChatUid, "messages", messageId), {
+          [`reactions.${auth.currentUser.uid}`]: emoji
+        });
+      } catch (error) {
+        console.error("Error al guardar reacción:", error);
+      }
+      menu.remove();
+    };
+    menu.appendChild(btn);
+  });
+
+  document.body.appendChild(menu);
+
+  // Cerrar al hacer clic fuera
+  const closeMenu = (e) => !menu.contains(e.target) && menu.remove();
+  document.addEventListener("click", closeMenu, { once: true });
+};
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var venderBtn = document.getElementById('venderBtn');
+  var sellerPostModal = document.getElementById('sellerPostModal');
+
+  venderBtn.addEventListener('click', function() {
+    // Esto removerá la clase 'hidden' y agregará 'flex' para mostrar el modal
+    sellerPostModal.classList.remove('hidden');
+    sellerPostModal.classList.add('flex');
+  });
+
+  // Asegúrate de tener una función para cerrar el modal también
+  window.closeSellerPostModal = function() {
+    sellerPostModal.classList.add('hidden');
+    sellerPostModal.classList.remove('flex');
+  };
+
+  // La función publicarProducto() debería estar definida para manejar la publicación
+  window.publicarProducto = function() {
+    // Aquí va tu código para manejar la publicación del producto
+    console.log('Producto publicado!');
+    closeSellerPostModal(); // Cierra el modal después de publicar
+  };
+});
+
+
+
+
+
+
+
+
+
+
+// Script para el sidebar deslizable mejorado
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const mainContent = document.getElementById('mainContent');
+        let isCollapsed = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isCollapsed = !isCollapsed;
+            
+            if(isCollapsed) {
+                sidebar.classList.add('sidebar-collapsed');
+                toggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                `;
+            } else {
+                sidebar.classList.remove('sidebar-collapsed');
+                toggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                `;
+            }
+        });
+
+        // (El resto de tus scripts aquí)
 
 
 
