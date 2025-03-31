@@ -485,6 +485,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
   <div class="bg-white w-full max-w-md mx-auto mt-10 rounded-2xl p-6 shadow-lg relative flex flex-col">
     <h2 class="text-xl font-semibold mb-4 text-center text-gray-800">🛍️ Publicar producto</h2>
 
+    <!-- Título -->
     <input
       id="productTitle"
       type="text"
@@ -492,12 +493,14 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
       class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
+    <!-- Descripción -->
     <textarea
       id="productDescription"
       placeholder="Descripción del producto"
       class="w-full border border-gray-300 rounded-lg p-2 mb-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
     ></textarea>
 
+    <!-- Precio -->
     <input
       id="productPrice"
       type="number"
@@ -505,6 +508,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
       class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
+    <!-- Imagen o video -->
     <input
       id="productImage"
       type="file"
@@ -512,7 +516,9 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
       class="w-full mb-4"
     />
 
+    <!-- Botones -->
     <div class="flex justify-between items-center mt-2">
+      <!-- Cancelar -->
       <button
         onclick="closeSellerPostModal()"
         class="text-sm text-gray-500 hover:text-gray-700 transition"
@@ -520,7 +526,9 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
         Cancelar
       </button>
 
+      <!-- Publicar -->
       <button
+        id="publicarProductoBtn"
         onclick="publicarProducto()"
         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
       >
@@ -610,8 +618,6 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
-
-
 
 
 
@@ -1669,68 +1675,71 @@ document.getElementById("switchToSellerBtn")?.addEventListener("click", async ()
     }
 });
 
+if (!window.__MODAL_PERFIL_VENDEDOR_ACTIVO) {
+  window.__MODAL_PERFIL_VENDEDOR_ACTIVO = true;
 
-document.addEventListener("DOMContentLoaded", () => {
-  // 👉 Abrir modal de PEDIDOS
-  const openOrdersBtn  = document.getElementById("openOrdersModal");
-  const ordersModal    = document.getElementById("ordersModal");
-  const closeOrdersBtn = document.getElementById("closeOrdersModal");
+  document.addEventListener("DOMContentLoaded", () => {
+    // 👉 Abrir modal de PEDIDOS
+    const openOrdersBtn  = document.getElementById("openOrdersModal");
+    const ordersModal    = document.getElementById("ordersModal");
+    const closeOrdersBtn = document.getElementById("closeOrdersModal");
 
-  openOrdersBtn?.addEventListener("click", () => {
-    ordersModal?.classList.remove("hidden");
-    ordersModal.style.display = "flex";
-  });
+    openOrdersBtn?.addEventListener("click", () => {
+      ordersModal?.classList.remove("hidden");
+      ordersModal.style.display = "flex";
+    });
 
-  closeOrdersBtn?.addEventListener("click", () => {
-    ordersModal?.classList.add("hidden");
-    ordersModal.style.display = "none";
-  });
-
-  ordersModal?.addEventListener("click", (e) => {
-    if (e.target.id === "ordersModal") {
-      ordersModal.classList.add("hidden");
+    closeOrdersBtn?.addEventListener("click", () => {
+      ordersModal?.classList.add("hidden");
       ordersModal.style.display = "none";
-    }
-  });
+    });
 
-  // 👉 Abrir modal de INGRESOS
-  const openEarningsBtn  = document.getElementById("openEarningsModal");
-  const earningsModal    = document.getElementById("earningsModal");
-  const closeEarningsBtn = document.getElementById("closeEarningsModal");
+    ordersModal?.addEventListener("click", (e) => {
+      if (e.target.id === "ordersModal") {
+        ordersModal.classList.add("hidden");
+        ordersModal.style.display = "none";
+      }
+    });
 
-  openEarningsBtn?.addEventListener("click", () => {
-    earningsModal?.classList.remove("hidden");
-    earningsModal.style.display = "flex";
-  });
+    // 👉 Abrir modal de INGRESOS
+    const openEarningsBtn  = document.getElementById("openEarningsModal");
+    const earningsModal    = document.getElementById("earningsModal");
+    const closeEarningsBtn = document.getElementById("closeEarningsModal");
 
-  closeEarningsBtn?.addEventListener("click", () => {
-    earningsModal?.classList.add("hidden");
-    earningsModal.style.display = "none";
-  });
+    openEarningsBtn?.addEventListener("click", () => {
+      earningsModal?.classList.remove("hidden");
+      earningsModal.style.display = "flex";
+    });
 
-  earningsModal?.addEventListener("click", (e) => {
-    if (e.target.id === "earningsModal") {
-      earningsModal.classList.add("hidden");
+    closeEarningsBtn?.addEventListener("click", () => {
+      earningsModal?.classList.add("hidden");
       earningsModal.style.display = "none";
-    }
-  });
+    });
 
-  // 👉 Cerrar modal de vendedor
-  const closeSellerBtn = document.getElementById("closeSellerModal");
-  const sellerModal    = document.getElementById("sellerProfileModal");
+    earningsModal?.addEventListener("click", (e) => {
+      if (e.target.id === "earningsModal") {
+        earningsModal.classList.add("hidden");
+        earningsModal.style.display = "none";
+      }
+    });
 
-  closeSellerBtn?.addEventListener("click", () => {
-    sellerModal?.classList.add("hidden");
-    sellerModal.style.display = "none";
-  });
+    // 👉 Cerrar modal de vendedor
+    const closeSellerBtn = document.getElementById("closeSellerModal");
+    const sellerModal    = document.getElementById("sellerProfileModal");
 
-  sellerModal?.addEventListener("click", (e) => {
-    if (e.target.id === "sellerProfileModal") {
-      sellerModal.classList.add("hidden");
+    closeSellerBtn?.addEventListener("click", () => {
+      sellerModal?.classList.add("hidden");
       sellerModal.style.display = "none";
-    }
+    });
+
+    sellerModal?.addEventListener("click", (e) => {
+      if (e.target.id === "sellerProfileModal") {
+        sellerModal.classList.add("hidden");
+        sellerModal.style.display = "none";
+      }
+    });
   });
-});
+}
 
 
 
@@ -1828,25 +1837,38 @@ document.getElementById("profilePicPreviewModal")?.addEventListener("click", (e)
 
 
 
+
+
+
 // 🟢 PUBLICAR POST (guarda perfil en el post)
-document.getElementById("publishBtn")?.addEventListener("click", async () => {
+document.getElementById("publishBtn")?.addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  btn.textContent = "Publicando...";
+
   const text = document.getElementById("postInput").value.trim();
   const imageInput = document.getElementById("postImageInput");
   const file = imageInput.files[0];
 
   if (!text && !file) {
     alert("⚠️ Escribe algo o sube una imagen o video.");
+    btn.disabled = false;
+    btn.textContent = "Publicar";
     return;
   }
 
   const user = auth.currentUser;
   if (!user) {
     alert("⚠️ Debes estar logueado.");
+    btn.disabled = false;
+    btn.textContent = "Publicar";
     return;
   }
 
   if (!userDataLoaded) {
     alert("⚠️ Espera a que se cargue tu perfil correctamente antes de publicar.");
+    btn.disabled = false;
+    btn.textContent = "Publicar";
     return;
   }
 
@@ -1875,6 +1897,8 @@ document.getElementById("publishBtn")?.addEventListener("click", async () => {
 
       if (!data.secure_url) {
         alert("❌ Error al subir el archivo a Cloudinary.");
+        btn.disabled = false;
+        btn.textContent = "Publicar";
         return;
       }
 
@@ -1882,6 +1906,8 @@ document.getElementById("publishBtn")?.addEventListener("click", async () => {
     } catch (error) {
       console.error("❌ Error al subir archivo:", error);
       alert("❌ Ocurrió un error al subir el archivo.");
+      btn.disabled = false;
+      btn.textContent = "Publicar";
       return;
     }
   }
@@ -1924,6 +1950,9 @@ document.getElementById("publishBtn")?.addEventListener("click", async () => {
   } catch (err) {
     console.error("❌ Error al guardar la publicación:", err);
     alert("❌ Error al guardar la publicación en Firestore.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Publicar";
   }
 });
 
@@ -2542,221 +2571,224 @@ window.showReactionMenu = async function (msg, messageId, container, event) {
 
 
 
+if (!window.__MODULO_PUBLICACION_PRODUCTOS_ACTIVO) {
+  window.__MODULO_PUBLICACION_PRODUCTOS_ACTIVO = true;
 
+  document.addEventListener('DOMContentLoaded', function () {
 
-document.addEventListener('DOMContentLoaded', function () {
+    const venderBtn = document.getElementById('venderBtn');
+    const sellerPostModal = document.getElementById('sellerPostModal');
+    let activePostId = "";
 
-  const venderBtn = document.getElementById('venderBtn');
-  const sellerPostModal = document.getElementById('sellerPostModal');
-  let activePostId = "";
+    venderBtn.addEventListener('click', function () {
+      sellerPostModal.classList.remove('hidden');
+      sellerPostModal.classList.add('flex');
+    });
 
-  venderBtn.addEventListener('click', function () {
-    sellerPostModal.classList.remove('hidden');
-    sellerPostModal.classList.add('flex');
-  });
+    window.closeSellerPostModal = function () {
+      sellerPostModal.classList.add('hidden');
+      sellerPostModal.classList.remove('flex');
+    };
 
-  window.closeSellerPostModal = function () {
-    sellerPostModal.classList.add('hidden');
-    sellerPostModal.classList.remove('flex');
-  };
+    window.publicarProducto = async function () {
+      const btn = document.getElementById("publicarProductoBtn");
+      const btnText = btn?.querySelector(".btn-text");
+      const spinner = btn?.querySelector(".spinner");
 
-  window.publicarProducto = async function () {
-    try {
-      const titulo = document.getElementById('productTitle').value;
-      const descripcion = document.getElementById('productDescription').value;
-      const precio = document.getElementById('productPrice').value;
-      const imagenFile = document.getElementById('productImage').files[0];
-
-      if (!titulo || !descripcion || !precio || !imagenFile) {
-        alert('Completa todos los campos.');
-        return;
+      if (btn) {
+        btn.disabled = true;
+        if (btnText) btnText.textContent = "Publicando...";
+        if (spinner) spinner.classList.remove("hidden");
       }
 
-      const auth = getAuth();
-      const user = auth.currentUser;
+      try {
+        const titulo = document.getElementById('productTitle').value;
+        const descripcion = document.getElementById('productDescription').value;
+        const precio = document.getElementById('productPrice').value;
+        const imagenFile = document.getElementById('productImage').files[0];
 
-      if (!user) {
-        alert('Debes iniciar sesión primero.');
-        return;
-      }
+        if (!titulo || !descripcion || !precio || !imagenFile) {
+          alert('Completa todos los campos.');
+          return;
+        }
 
-      const db = getFirestore();
-      const userRef = doc(db, "usuarios", user.uid);
-      const userSnap = await getDoc(userRef);
+        const auth = getAuth();
+        const user = auth.currentUser;
 
-      const profileData = userSnap.exists() ? userSnap.data() : {
-        username: user.displayName || "Usuario",
-        photoURL: user.photoURL || "https://via.placeholder.com/40"
-      };
+        if (!user) {
+          alert('Debes iniciar sesión primero.');
+          return;
+        }
 
-      let mediaURL = "";
-      let isVideo = imagenFile.type.startsWith('video/');
-      const formData = new FormData();
-      formData.append('file', imagenFile);
-      formData.append('upload_preset', 'Tweetsocial');
+        const db = getFirestore();
+        const userRef = doc(db, "usuarios", user.uid);
+        const userSnap = await getDoc(userRef);
 
-      const uploadURL = isVideo
-        ? "https://api.cloudinary.com/v1_1/dz70korgo/video/upload"
-        : "https://api.cloudinary.com/v1_1/dz70korgo/image/upload";
+        const profileData = userSnap.exists() ? userSnap.data() : {
+          username: user.displayName || "Usuario",
+          photoURL: user.photoURL || "https://via.placeholder.com/40"
+        };
 
-      const response = await fetch(uploadURL, { method: "POST", body: formData });
-      const data = await response.json();
+        let mediaURL = "";
+        let isVideo = imagenFile.type.startsWith('video/');
+        const formData = new FormData();
+        formData.append('file', imagenFile);
+        formData.append('upload_preset', 'Tweetsocial');
 
-      if (!data.secure_url) {
-        alert("Error al subir a Cloudinary");
-        return;
-      }
+        const uploadURL = isVideo
+          ? "https://api.cloudinary.com/v1_1/dz70korgo/video/upload"
+          : "https://api.cloudinary.com/v1_1/dz70korgo/image/upload";
 
-      mediaURL = data.secure_url;
+        const response = await fetch(uploadURL, { method: "POST", body: formData });
+        const data = await response.json();
 
-      await addDoc(collection(db, "posts"), {
-        tipo: "venta",
-        titulo,
-        descripcion,
-        precio,
-        imagen: mediaURL,
-        isVideo,
-        username: profileData.username,
-        photoURL: profileData.modalPhotoURL || profileData.photoURL,
-        uid: user.uid,
-        timestamp: serverTimestamp()
-      });
+        if (!data.secure_url) {
+          alert("Error al subir a Cloudinary");
+          return;
+        }
 
-      document.getElementById('productTitle').value = "";
-      document.getElementById('productDescription').value = "";
-      document.getElementById('productPrice').value = "";
-      document.getElementById('productImage').value = "";
+        mediaURL = data.secure_url;
 
-      closeSellerPostModal();
-      alert("✅ Producto publicado exitosamente.");
-    } catch (error) {
-      console.error("❌ Error al publicar:", error);
-      alert("Error al publicar. Revisa la consola.");
-    }
-  };
+        await addDoc(collection(db, "posts"), {
+          tipo: "venta",
+          titulo,
+          descripcion,
+          precio,
+          imagen: mediaURL,
+          isVideo,
+          username: profileData.username,
+          photoURL: profileData.modalPhotoURL || profileData.photoURL,
+          uid: user.uid,
+          timestamp: serverTimestamp()
+        });
 
-  function listenForPosts() {
-  const db = getFirestore();
-  const postsContainer = document.getElementById("postsContainer");
-  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+        document.getElementById('productTitle').value = "";
+        document.getElementById('productDescription').value = "";
+        document.getElementById('productPrice').value = "";
+        document.getElementById('productImage').value = "";
 
-  onSnapshot(q, async (snapshot) => {
-    postsContainer.innerHTML = "";
-
-    const userCache = {}; // 🔄 Caché para evitar múltiples llamadas por el mismo uid
-
-    for (const docSnap of snapshot.docs) {
-      const postData = docSnap.data();
-      const postId = docSnap.id;
-      const uid = postData.uid;
-
-      let userData = userCache[uid];
-
-      if (!userData) {
-        try {
-          const userRef = doc(db, "usuarios", uid);
-          const userSnap = await getDoc(userRef);
-          userData = userSnap.exists() ? userSnap.data() : {};
-          userCache[uid] = userData; // 🧠 Guarda en caché
-        } catch (error) {
-          console.error("❌ Error al obtener usuario:", error);
-          userData = {};
+        closeSellerPostModal();
+        alert("✅ Producto publicado exitosamente.");
+      } catch (error) {
+        console.error("❌ Error al publicar:", error);
+        alert("Error al publicar. Revisa la consola.");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          if (btnText) btnText.textContent = "Publicar";
+          if (spinner) spinner.classList.add("hidden");
         }
       }
+    };
 
-      postsContainer.insertAdjacentHTML('beforeend', renderPostHTML(postData, userData, postId));
+    function listenForPosts() {
+      const db = getFirestore();
+      const postsContainer = document.getElementById("postsContainer");
+      const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+
+      onSnapshot(q, (snapshot) => {
+        postsContainer.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const postData = doc.data();
+          const postId = doc.id;
+          postsContainer.insertAdjacentHTML('beforeend', renderPostHTML(postData, {}, postId));
+        });
+      }, (error) => {
+        console.error("Error en snapshot:", error);
+      });
     }
-  }, (error) => {
-    console.error("❌ Error en snapshot de posts:", error);
+
+    listenForPosts();
+
+    document.addEventListener('click', async function (e) {
+      const clicked = e.target;
+
+      // 📷 Modal multimedia
+      if (clicked.classList.contains('media-clickable')) {
+        const src = clicked.src;
+        const isVideo = clicked.tagName.toLowerCase() === 'video';
+        const mediaContainer = document.getElementById('mediaContainer');
+        mediaContainer.innerHTML = isVideo
+          ? `<video controls autoplay class="max-w-full max-h-screen rounded shadow"><source src="${src}" type="video/mp4"></video>`
+          : `<img src="${src}" class="max-w-full max-h-screen rounded shadow" alt="Media">`;
+        document.getElementById('mediaModal').classList.remove('hidden');
+      }
+
+      // 💬 Mostrar modal de comentarios
+      if (clicked.classList.contains('show-comments-btn')) {
+        activePostId = clicked.getAttribute('data-post-id');
+        document.getElementById('commentsModal').classList.remove('hidden');
+        document.getElementById('commentsModal').classList.add('flex');
+        loadModalComments(activePostId);
+      }
+
+      // 📩 Enviar comentario
+      if (clicked.id === 'modalSendCommentBtn') {
+        const input = document.getElementById('modalCommentInput');
+        const text = input.value.trim();
+
+        if (!text) return alert("Escribe un comentario");
+
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) return alert("Debes iniciar sesión");
+
+        const db = getFirestore();
+        const userRef = doc(db, "usuarios", user.uid);
+        const userSnap = await getDoc(userRef);
+        const profile = userSnap.exists() ? userSnap.data() : {
+          username: user.displayName || "Usuario",
+          photoURL: user.photoURL || "https://via.placeholder.com/40"
+        };
+
+        await addDoc(collection(db, "posts", activePostId, "comentarios"), {
+          text,
+          uid: user.uid,
+          username: profile.username,
+          photoURL: profile.photoURL,
+          timestamp: serverTimestamp()
+        });
+
+        input.value = "";
+      }
+    });
+
+    window.closeMediaModal = function () {
+      document.getElementById('mediaModal').classList.add('hidden');
+      document.getElementById('mediaContainer').innerHTML = "";
+    };
+
+    window.closeCommentsModal = function () {
+      document.getElementById('commentsModal').classList.add('hidden');
+      document.getElementById('commentsModal').classList.remove('flex');
+      document.getElementById('commentsModalContent').innerHTML = "";
+      activePostId = "";
+    };
+
+    function loadModalComments(postId) {
+      const db = getFirestore();
+      const container = document.getElementById('commentsModalContent');
+      const q = query(collection(db, "posts", postId, "comentarios"), orderBy("timestamp", "asc"));
+
+      onSnapshot(q, (snapshot) => {
+        container.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const c = doc.data();
+          container.insertAdjacentHTML('beforeend', `
+            <div class="flex items-start space-x-2 my-2">
+              <img src="${c.photoURL}" class="w-8 h-8 rounded-full mt-1" alt="user">
+              <div class="bg-gray-100 rounded-lg p-2">
+                <span class="font-semibold text-sm text-blue-600">@${c.username}</span>
+                <p class="text-gray-800 text-sm">${c.text}</p>
+              </div>
+            </div>
+          `);
+        });
+      });
+    }
+
   });
 }
-
-    // 📷 Modal multimedia
-    if (clicked.classList.contains('media-clickable')) {
-      const src = clicked.src;
-      const isVideo = clicked.tagName.toLowerCase() === 'video';
-      const mediaContainer = document.getElementById('mediaContainer');
-      mediaContainer.innerHTML = isVideo
-        ? `<video controls autoplay class="max-w-full max-h-screen rounded shadow"><source src="${src}" type="video/mp4"></video>`
-        : `<img src="${src}" class="max-w-full max-h-screen rounded shadow" alt="Media">`;
-      document.getElementById('mediaModal').classList.remove('hidden');
-    }
-
-    // 💬 Mostrar modal de comentarios
-    if (clicked.classList.contains('show-comments-btn')) {
-      activePostId = clicked.getAttribute('data-post-id');
-      document.getElementById('commentsModal').classList.remove('hidden');
-      document.getElementById('commentsModal').classList.add('flex');
-      loadModalComments(activePostId);
-    }
-
-    // 📩 Enviar comentario
-    if (clicked.id === 'modalSendCommentBtn') {
-      const input = document.getElementById('modalCommentInput');
-      const text = input.value.trim();
-
-      if (!text) return alert("Escribe un comentario");
-
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (!user) return alert("Debes iniciar sesión");
-
-      const db = getFirestore();
-      const userRef = doc(db, "usuarios", user.uid);
-      const userSnap = await getDoc(userRef);
-      const profile = userSnap.exists() ? userSnap.data() : {
-        username: user.displayName || "Usuario",
-        photoURL: user.photoURL || "https://via.placeholder.com/40"
-      };
-
-      await addDoc(collection(db, "posts", activePostId, "comentarios"), {
-        text,
-        uid: user.uid,
-        username: profile.username,
-        photoURL: profile.photoURL,
-        timestamp: serverTimestamp()
-      });
-
-      input.value = "";
-    }
-  });
-
-  window.closeMediaModal = function () {
-    document.getElementById('mediaModal').classList.add('hidden');
-    document.getElementById('mediaContainer').innerHTML = "";
-  };
-
-  window.closeCommentsModal = function () {
-    document.getElementById('commentsModal').classList.add('hidden');
-    document.getElementById('commentsModal').classList.remove('flex');
-    document.getElementById('commentsModalContent').innerHTML = "";
-    activePostId = "";
-  };
-
-  function loadModalComments(postId) {
-    const db = getFirestore();
-    const container = document.getElementById('commentsModalContent');
-    const q = query(collection(db, "posts", postId, "comentarios"), orderBy("timestamp", "asc"));
-
-    onSnapshot(q, (snapshot) => {
-      container.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const c = doc.data();
-        container.insertAdjacentHTML('beforeend', `
-          <div class="flex items-start space-x-2 my-2">
-            <img src="${c.photoURL}" class="w-8 h-8 rounded-full mt-1" alt="user">
-            <div class="bg-gray-100 rounded-lg p-2">
-              <span class="font-semibold text-sm text-blue-600">@${c.username}</span>
-              <p class="text-gray-800 text-sm">${c.text}</p>
-            </div>
-          </div>
-        `);
-      });
-    });
-  }
-
-});
-
 
 
 
@@ -2813,7 +2845,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // (El resto de tus scripts aquí)
-
 
 
 
