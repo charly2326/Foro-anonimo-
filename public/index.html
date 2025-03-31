@@ -110,6 +110,17 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
             margin-left: 5rem;
         }
 
+
+
+
+
+
+
+
+
+
+
+
 </style>
 </head>
 <body class="bg-gray-100">
@@ -410,6 +421,17 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 <!-- Modal de Mensajes Simple -->
 <div id="simpleMessagesModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden" style="display: none;">
   <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-4 space-y-4">
@@ -450,6 +472,14 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
 
+
+
+
+
+                                                                                                            
+
+
+                                                                                                            
 <!-- ✅ Modal para publicaciones de vendedor -->
 <div id="sellerPostModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white w-full max-w-md mx-auto mt-10 rounded-2xl p-6 shadow-lg relative flex flex-col">
@@ -478,7 +508,7 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     <input
       id="productImage"
       type="file"
-      accept="image/*"
+      accept="image/*,video/*"
       class="w-full mb-4"
     />
 
@@ -502,6 +532,36 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
 
 
 
+
+
+
+
+
+
+<div id="mediaModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50">
+  <button onclick="closeMediaModal()" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+  <div id="mediaContainer" class="max-w-full max-h-full p-4">
+    <!-- Aquí aparecerá la imagen o video -->
+  </div>
+</div>
+
+
+
+
+<!-- Comentarios Modal -->
+<div id="commentsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white p-4 rounded shadow max-w-md w-full">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-lg font-bold">Comentarios</h3>
+      <button onclick="closeCommentsModal()">✖</button>
+    </div>
+    <div id="commentsModalContent" class="max-h-64 overflow-y-auto mb-2"></div>
+    <div class="flex space-x-2">
+      <input id="modalCommentInput" class="border rounded w-full p-1" placeholder="Escribe un comentario...">
+      <button id="modalSendCommentBtn" class="bg-blue-500 text-white px-3 rounded">Enviar</button>
+    </div>
+  </div>
+</div>
 
 
 <script type="module">
@@ -550,6 +610,12 @@ document.getElementById("openEditProfileFromModal").addEventListener("click", fu
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+
+
+
+
+
+
 
 
 
@@ -1895,7 +1961,19 @@ function listenForPosts() {
 
 
 
-function renderPostHTML(docData, userData = {}) {
+
+
+
+
+
+
+
+
+
+
+
+
+function renderPostHTML(docData, userData = {}, postId = "") {
   const safeUser = {
     username: docData.username || userData.username || "usuario",
     name: docData.name || userData.name || "Usuario",
@@ -1905,7 +1983,7 @@ function renderPostHTML(docData, userData = {}) {
 
   const uid = docData?.uid || userData?.uid || "";
 
-  // 📦 Si es tipo "venta"
+  // 📦 Post tipo "venta"
   if (docData.tipo === "venta") {
     return `
       <div class="bg-yellow-100 p-5 rounded shadow-md mt-4 border border-yellow-300">
@@ -1927,11 +2005,13 @@ function renderPostHTML(docData, userData = {}) {
         <p class="text-green-700 font-bold mb-2">💲${docData.precio || 0}</p>
         ${
           docData.imagen
-            ? `<img src="${docData.imagen}" class="w-full max-h-60 object-cover rounded mb-3" alt="Producto">`
+            ? docData.isVideo
+              ? `<video class="media-clickable w-full max-h-60 object-cover rounded cursor-pointer mb-3" src="${docData.imagen}"></video>`
+              : `<img src="${docData.imagen}" class="media-clickable w-full max-h-60 object-cover rounded cursor-pointer mb-3" alt="Producto">`
             : ""
         }
         <div class="flex mt-2 space-x-4 text-sm text-gray-600">
-          <button class="hover:text-blue-600">💬 Comentar</button>
+          <button class="show-comments-btn bg-gray-200 px-3 py-1 rounded cursor-pointer" data-post-id="${postId}">💬 Comentarios</button>
           <button class="hover:text-red-500">❤️</button>
         </div>
       </div>
@@ -1958,25 +2038,29 @@ function renderPostHTML(docData, userData = {}) {
       ${
         docData.mediaURL
           ? docData.isVideo
-            ? `<video controls class="mt-2 max-h-60 mx-auto rounded">
-                 <source src="${docData.mediaURL}" type="video/mp4">
-               </video>`
+            ? `<video class="media-clickable mt-2 max-h-60 mx-auto rounded cursor-pointer" src="${docData.mediaURL}"></video>`
             : `<div class="mt-2">
                  <img src="${docData.mediaURL}"
-                      class="max-h-40 object-cover mx-auto rounded"
+                      class="media-clickable max-h-40 object-cover mx-auto rounded cursor-pointer"
                       alt="Contenido multimedia"
                       onerror="this.style.display='none'" />
                </div>`
           : ""
       }
       <div class="flex mt-3 space-x-4">
-        <button class="text-gray-600">💬 Comentar</button>
+        <button class="show-comments-btn bg-gray-200 px-3 py-1 rounded cursor-pointer" data-post-id="${postId}">💬 Comentarios</button>
         <button class="text-red-500">❤️</button>
         <button class="text-gray-600">🔗</button>
       </div>
     </div>
   `;
 }
+
+
+
+
+
+
 
 
 
@@ -2458,29 +2542,240 @@ window.showReactionMenu = async function (msg, messageId, container, event) {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  var venderBtn = document.getElementById('venderBtn');
-  var sellerPostModal = document.getElementById('sellerPostModal');
 
-  venderBtn.addEventListener('click', function() {
-    // Esto removerá la clase 'hidden' y agregará 'flex' para mostrar el modal
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  const venderBtn = document.getElementById('venderBtn');
+  const sellerPostModal = document.getElementById('sellerPostModal');
+  let activePostId = "";
+
+  venderBtn.addEventListener('click', function () {
     sellerPostModal.classList.remove('hidden');
     sellerPostModal.classList.add('flex');
   });
 
-  // Asegúrate de tener una función para cerrar el modal también
-  window.closeSellerPostModal = function() {
+  window.closeSellerPostModal = function () {
     sellerPostModal.classList.add('hidden');
     sellerPostModal.classList.remove('flex');
   };
 
-  // La función publicarProducto() debería estar definida para manejar la publicación
-  window.publicarProducto = function() {
-    // Aquí va tu código para manejar la publicación del producto
-    console.log('Producto publicado!');
-    closeSellerPostModal(); // Cierra el modal después de publicar
+  window.publicarProducto = async function () {
+    try {
+      const titulo = document.getElementById('productTitle').value;
+      const descripcion = document.getElementById('productDescription').value;
+      const precio = document.getElementById('productPrice').value;
+      const imagenFile = document.getElementById('productImage').files[0];
+
+      if (!titulo || !descripcion || !precio || !imagenFile) {
+        alert('Completa todos los campos.');
+        return;
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert('Debes iniciar sesión primero.');
+        return;
+      }
+
+      const db = getFirestore();
+      const userRef = doc(db, "usuarios", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      const profileData = userSnap.exists() ? userSnap.data() : {
+        username: user.displayName || "Usuario",
+        photoURL: user.photoURL || "https://via.placeholder.com/40"
+      };
+
+      let mediaURL = "";
+      let isVideo = imagenFile.type.startsWith('video/');
+      const formData = new FormData();
+      formData.append('file', imagenFile);
+      formData.append('upload_preset', 'Tweetsocial');
+
+      const uploadURL = isVideo
+        ? "https://api.cloudinary.com/v1_1/dz70korgo/video/upload"
+        : "https://api.cloudinary.com/v1_1/dz70korgo/image/upload";
+
+      const response = await fetch(uploadURL, { method: "POST", body: formData });
+      const data = await response.json();
+
+      if (!data.secure_url) {
+        alert("Error al subir a Cloudinary");
+        return;
+      }
+
+      mediaURL = data.secure_url;
+
+      await addDoc(collection(db, "posts"), {
+        tipo: "venta",
+        titulo,
+        descripcion,
+        precio,
+        imagen: mediaURL,
+        isVideo,
+        username: profileData.username,
+        photoURL: profileData.modalPhotoURL || profileData.photoURL,
+        uid: user.uid,
+        timestamp: serverTimestamp()
+      });
+
+      document.getElementById('productTitle').value = "";
+      document.getElementById('productDescription').value = "";
+      document.getElementById('productPrice').value = "";
+      document.getElementById('productImage').value = "";
+
+      closeSellerPostModal();
+      alert("✅ Producto publicado exitosamente.");
+    } catch (error) {
+      console.error("❌ Error al publicar:", error);
+      alert("Error al publicar. Revisa la consola.");
+    }
   };
+
+  function listenForPosts() {
+  const db = getFirestore();
+  const postsContainer = document.getElementById("postsContainer");
+  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+
+  onSnapshot(q, async (snapshot) => {
+    postsContainer.innerHTML = "";
+
+    const userCache = {}; // 🔄 Caché para evitar múltiples llamadas por el mismo uid
+
+    for (const docSnap of snapshot.docs) {
+      const postData = docSnap.data();
+      const postId = docSnap.id;
+      const uid = postData.uid;
+
+      let userData = userCache[uid];
+
+      if (!userData) {
+        try {
+          const userRef = doc(db, "usuarios", uid);
+          const userSnap = await getDoc(userRef);
+          userData = userSnap.exists() ? userSnap.data() : {};
+          userCache[uid] = userData; // 🧠 Guarda en caché
+        } catch (error) {
+          console.error("❌ Error al obtener usuario:", error);
+          userData = {};
+        }
+      }
+
+      postsContainer.insertAdjacentHTML('beforeend', renderPostHTML(postData, userData, postId));
+    }
+  }, (error) => {
+    console.error("❌ Error en snapshot de posts:", error);
+  });
+}
+
+    // 📷 Modal multimedia
+    if (clicked.classList.contains('media-clickable')) {
+      const src = clicked.src;
+      const isVideo = clicked.tagName.toLowerCase() === 'video';
+      const mediaContainer = document.getElementById('mediaContainer');
+      mediaContainer.innerHTML = isVideo
+        ? `<video controls autoplay class="max-w-full max-h-screen rounded shadow"><source src="${src}" type="video/mp4"></video>`
+        : `<img src="${src}" class="max-w-full max-h-screen rounded shadow" alt="Media">`;
+      document.getElementById('mediaModal').classList.remove('hidden');
+    }
+
+    // 💬 Mostrar modal de comentarios
+    if (clicked.classList.contains('show-comments-btn')) {
+      activePostId = clicked.getAttribute('data-post-id');
+      document.getElementById('commentsModal').classList.remove('hidden');
+      document.getElementById('commentsModal').classList.add('flex');
+      loadModalComments(activePostId);
+    }
+
+    // 📩 Enviar comentario
+    if (clicked.id === 'modalSendCommentBtn') {
+      const input = document.getElementById('modalCommentInput');
+      const text = input.value.trim();
+
+      if (!text) return alert("Escribe un comentario");
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) return alert("Debes iniciar sesión");
+
+      const db = getFirestore();
+      const userRef = doc(db, "usuarios", user.uid);
+      const userSnap = await getDoc(userRef);
+      const profile = userSnap.exists() ? userSnap.data() : {
+        username: user.displayName || "Usuario",
+        photoURL: user.photoURL || "https://via.placeholder.com/40"
+      };
+
+      await addDoc(collection(db, "posts", activePostId, "comentarios"), {
+        text,
+        uid: user.uid,
+        username: profile.username,
+        photoURL: profile.photoURL,
+        timestamp: serverTimestamp()
+      });
+
+      input.value = "";
+    }
+  });
+
+  window.closeMediaModal = function () {
+    document.getElementById('mediaModal').classList.add('hidden');
+    document.getElementById('mediaContainer').innerHTML = "";
+  };
+
+  window.closeCommentsModal = function () {
+    document.getElementById('commentsModal').classList.add('hidden');
+    document.getElementById('commentsModal').classList.remove('flex');
+    document.getElementById('commentsModalContent').innerHTML = "";
+    activePostId = "";
+  };
+
+  function loadModalComments(postId) {
+    const db = getFirestore();
+    const container = document.getElementById('commentsModalContent');
+    const q = query(collection(db, "posts", postId, "comentarios"), orderBy("timestamp", "asc"));
+
+    onSnapshot(q, (snapshot) => {
+      container.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const c = doc.data();
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex items-start space-x-2 my-2">
+            <img src="${c.photoURL}" class="w-8 h-8 rounded-full mt-1" alt="user">
+            <div class="bg-gray-100 rounded-lg p-2">
+              <span class="font-semibold text-sm text-blue-600">@${c.username}</span>
+              <p class="text-gray-800 text-sm">${c.text}</p>
+            </div>
+          </div>
+        `);
+      });
+    });
+  }
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2518,6 +2813,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // (El resto de tus scripts aquí)
+
+
+
+
+
+
+
+
+
+
 
 
 
